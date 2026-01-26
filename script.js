@@ -21,7 +21,7 @@ function animateBg() {
 animateBg();
 
 setInterval(() => {
-  letters.forEach(letter => letter.classList.remove("off"));
+  letters.forEach((letter) => letter.classList.remove("off"));
   letters[index].classList.add("off");
 
   index++;
@@ -34,4 +34,29 @@ document.addEventListener("visibilitychange", () => {
   } else {
     document.body.classList.remove("paused");
   }
+});
+
+const openAuth = document.getElementById("openAuth");
+const authOverlay = document.getElementById("authOverlay");
+const toggleAuth = document.getElementById("toggleAuth");
+const formTitle = document.getElementById("formTitle");
+const confirmPassword = document.getElementById("confirmPassword");
+
+let isLogin = true;
+
+openAuth.addEventListener("click", () => {
+  authOverlay.classList.add("active");
+});
+
+authOverlay.addEventListener("click", (e) => {
+  if (e.target === authOverlay) {
+    authOverlay.classList.remove("active");
+  }
+});
+
+toggleAuth.addEventListener("click", () => {
+  isLogin = !isLogin;
+  formTitle.textContent = isLogin ? "Login" : "Sign Up";
+  toggleAuth.textContent = isLogin ? "Sign up" : "Login";
+  confirmPassword.hidden = isLogin;
 });
