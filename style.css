@@ -4,7 +4,78 @@
   box-sizing: border-box;
 }
 
-html, body {
+/* AUTH OVERLAY */
+.auth-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  z-index: 999;
+}
+
+.auth-overlay.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+/* AUTH CARD */
+.auth-card {
+  width: 360px;
+  padding: 2.5rem;
+  border-radius: 18px;
+  background: rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 0 45px rgba(0, 247, 255, 0.35);
+  text-align: center;
+  color: white;
+}
+
+.auth-card h2 {
+  margin-bottom: 1.5rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.auth-card input {
+  width: 100%;
+  padding: 14px;
+  margin-bottom: 1rem;
+  border-radius: 10px;
+  border: 1px solid rgba(0, 247, 255, 0.5);
+  background: rgba(0, 0, 0, 0.4);
+  color: white;
+  outline: none;
+  font-family: inherit;
+}
+
+.auth-card input::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.auth-switch {
+  margin-top: 1.5rem;
+  font-size: 0.85rem;
+  opacity: 0.8;
+}
+
+.auth-switch span {
+  color: #00f7ff;
+  cursor: pointer;
+  margin-left: 6px;
+}
+
+.auth-switch span:hover {
+  text-shadow: 0 0 10px rgba(0, 247, 255, 1);
+}
+
+html,
+body {
   background: black;
   overflow-x: hidden;
   font-family: "Orbitron", sans-serif;
@@ -33,7 +104,9 @@ html, body {
 /* NEON LETTERS */
 .neon-text span {
   display: inline-block;
-  transition: color 0.25s ease, text-shadow 0.25s ease;
+  transition:
+    color 0.25s ease,
+    text-shadow 0.25s ease;
 }
 
 .cta {
@@ -76,8 +149,8 @@ html, body {
   inset: 0;
   background: repeating-linear-gradient(
     to bottom,
-    rgba(255,255,255,0.03),
-    rgba(255,255,255,0.03) 1px,
+    rgba(255, 255, 255, 0.03),
+    rgba(255, 255, 255, 0.03) 1px,
     transparent 2px,
     transparent 6px
   );
@@ -153,7 +226,6 @@ body {
   transform: translateX(-50%) translateY(0);
 }
 
-
 /* Moving futuristic background */
 .hero-bg {
   position: absolute;
@@ -171,16 +243,8 @@ body {
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(
-      120deg,
-      rgba(255, 255, 255, 0.10),
-      rgba(255, 255, 255, 0)
-    ),
-    radial-gradient(
-      circle at 50% 45%,
-      rgba(0, 247, 255, 0.22),
-      transparent 65%
-    );
+    linear-gradient(120deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0)),
+    radial-gradient(circle at 50% 45%, rgba(0, 247, 255, 0.22), transparent 65%);
   backdrop-filter: blur(3px);
   -webkit-backdrop-filter: blur(3px);
 }
@@ -200,8 +264,7 @@ body {
   font-weight: 900;
   letter-spacing: 6px;
   text-transform: uppercase;
-  text-shadow:
-  0 0 12px rgba(0, 247, 255, 0.6);
+  text-shadow: 0 0 12px rgba(0, 247, 255, 0.6);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -211,13 +274,12 @@ body {
   }
 }
 
-html, body {
+html,
+body {
   width: 100%;
   height: 100%;
   overflow-x: hidden;
 }
-
-
 
 /* HERO TEXT */
 .hero-content p {
