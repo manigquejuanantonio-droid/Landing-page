@@ -1,46 +1,63 @@
-🔹 Project Title
+ACTIVITY 1 – January 21, 2026
 
-NEONEX – Futuristic Landing Page
+🔹 Activity name
+Futuristic Landing Page
 
 🔹 Description
-
-NEONEX is a conceptual, futuristic landing page for a next-generation social platform. It is designed to showcase a clean, immersive, and modern user interface inspired by cyberpunk aesthetics and advanced digital experiences. The project targets users interested in futuristic technology, digital identity, and social interaction in visually rich environments.
-
-The landing page emphasizes strong visual impact, smooth micro-interactions, and a minimal yet engaging layout. It serves as a front-end demonstration of modern web design techniques, animation, and UI composition using standard web technologies.
+This activity focuses on creating a futuristic landing page concept called NEONEX, designed for a next-generation social platform. The landing page is intended for users interested in modern technology, digital identity, and immersive web experiences. Its purpose is to present a strong visual first impression using clean layouts, animations, and interactive elements while remaining easy to navigate and visually clear.
 
 🔹 Technologies Used
-
-HTML5 – semantic structure and layout
-
-CSS3 – animations, glassmorphism effects, neon styling, and responsive design
-
-JavaScript (Vanilla) – interactive behavior, animations, and UI state control
+HTML5
+CSS3
+JavaScript
 
 🔹 Features
 
-Futuristic hero section with animated neon text effects
+Futuristic hero section with animated neon text
 
-Mouse-responsive parallax background movement
+Mouse-responsive parallax background effect
 
-Cyberpunk-inspired glassmorphism UI elements
+Clean and responsive layout for different screen sizes
 
-Modal-based login and sign-up interface (front-end only)
-
-Smooth UI transitions and hover effects
-
-Clean, responsive layout for desktop and mobile
-
-Optimized for static hosting (GitHub Pages compatible)
+Call-to-action button with hover animations
 
 🔹 AI Assistance Disclosure (Required)
-
 Did you use AI tools? Yes
 
-If YES, specify: I used ChatGPT to assist with UI layout ideas, CSS styling techniques, animation logic, interaction behavior, wording improvements, and general optimization guidance. All generated suggestions were reviewed, modified, and customized by me to align with my design vision and project requirements.
+If YES, specify:
+I used ChatGPT to help generate layout ideas, improve CSS styling techniques, assist with animation concepts, and refine text content. All code and suggestions were reviewed, modified, and customized by me to meet the project requirements.
 
-🔹 Learning Reflection
+🔹 Learning Reflection 
+Through this activity, I learned how to structure a visually engaging landing page using modern HTML, CSS, and JavaScript techniques. The most challenging part was balancing futuristic animations and visual effects while maintaining good performance and readability.
 
-Through this project, I gained a deeper understanding of structuring a single-page landing experience while maintaining visual clarity and performance. I learned how to combine animations, effects, and interactivity without overwhelming the user or degrading performance.
+ACTIVITY 2
 
-The most challenging aspect was balancing futuristic visual effects—such as neon animations and background motion—while ensuring smooth performance, especially when deploying the project on GitHub Pages. This project helped reinforce best practices for front-end organization, performance awareness, and UI consistency.
+🔹 Activity name
+Login and Sign-Up Modal Interface
 
+🔹 Description
+This activity focuses on implementing a front-end login and sign-up interface for the NEONEX landing page. It is designed to demonstrate user interaction through modal windows without using a back-end system. The purpose of this activity is to show how authentication-related UI elements can be integrated smoothly into a landing page using JavaScript and CSS.
+
+🔹 Technologies Used
+HTML5
+CSS3
+JavaScript
+
+🔹 Features
+
+Modal-based login and sign-up interface
+
+Toggle functionality between login and sign-up forms
+
+Glassmorphism design with neon styling
+
+Smooth transitions and hover effects
+
+🔹 AI Assistance Disclosure (Required)
+Did you use AI tools? Yes
+
+If YES, specify:
+I used ChatGPT to assist with JavaScript logic for toggling the login and sign-up forms, modal interaction behavior, and UI improvement suggestions. All generated ideas were reviewed and adjusted by me before implementation.
+
+🔹 Learning Reflection 
+From this activity, I learned how to manage UI state changes using JavaScript and how to connect interactive components within a single-page layout. The most challenging part was ensuring smooth transitions and maintaining consistent styling between the login and sign-up views.
