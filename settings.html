@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link
+  href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap"
+  rel="stylesheet"
+/>
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NEONEX | Settings</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div class="page-bg"></div>
+
+  <main class="dashboard">
+
+    <header class="dashboard-header">
+      <h1 class="neon-text">Settings</h1>
+      <nav>
+        <a href="profile.html">Back</a>
+      </nav>
+    </header>
+
+    <form class="settings-card card">
+
+      <label>
+        Change Email
+        <input type="email" placeholder="newemail@neonex.io" />
+      </label>
+
+      <label>
+        Change Address
+        <input type="text" placeholder="New location" />
+      </label>
+
+      <label>
+        Change Password
+        <input type="password" placeholder="New password" />
+      </label>
+
+
+      <div class="setting-group theme-switch">
+  <span>Theme</span>
+
+  <label class="switch">
+    <input type="checkbox" id="themeToggle" />
+    <span class="slider"></span>
+  </label>
+
+  <small>Toggle Light / Dark Mode</small>
+</div>
+
+<script src="script.js" defer></script>
+
+
+
+      <button type="button" class="cta">Save Changes</button>
+
+    </form>
+
+  </main>
+
+</body>
+</html>
