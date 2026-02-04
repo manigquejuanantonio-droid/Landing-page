@@ -59,5 +59,38 @@ Did you use AI tools? Yes
 If YES, specify:
 I used ChatGPT to assist with JavaScript logic for toggling the login and sign-up forms, modal interaction behavior, and UI improvement suggestions. All generated ideas were reviewed and adjusted by me before implementation.
 
+
+ACTIVITY 3 – Profile & Settings Pages (UI Navigation Challenge)
+
+🔹 Activity name
+Profile and Settings Dashboard Interface
+
+🔹 Description
+This activity focuses on extending the NEONEX project by adding Profile and Settings pages to simulate a logged-in user experience. The goal is to demonstrate multi-page navigation, dashboard-style layout, and consistent UI design across the application. The Profile page displays static user information, while the Settings page allows users to visually manage preferences such as theme selection. This activity is UI-only and does not involve backend logic or database integration.
+
+🔹 Technologies Used
+HTML5
+CSS3
+JavaScript
+
+🔹 Features
+
+Multi-page navigation flow (Landing → Login → Profile → Settings)
+Dashboard-style profile layout with user information cards
+Settings page with visual-only form inputs
+Light/Dark mode preference toggle (Dark mode as default)
+Theme preference persistence across pages using localStorage
+Consistent futuristic NEONEX design across all pages
+GitHub Pages–compatible navigation using relative links
+
+🔹 AI Assistance Disclosure (Required)
+Did you use AI tools? Yes
+
+If YES, specify:
+I used ChatGPT to assist with UI layout planning, navigation flow validation, theme toggle logic, and CSS refinements to ensure consistent styling across the Profile and Settings pages. All suggestions were reviewed, adapted, and customized by me to align with the project requirements and design goals.
+
+🔹 Learning Reflection
+Through this activity, I learned how to design and structure multi-page front-end interfaces while maintaining visual consistency and clean navigation. I also gained experience implementing user preference features such as light and dark mode using JavaScript and localStorage. The most challenging part was ensuring that design quality remained consistent across all pages while keeping the project fully front-end and GitHub Pages compatible.
+
 🔹 Learning Reflection 
 From this activity, I learned how to manage UI state changes using JavaScript and how to connect interactive components within a single-page layout. The most challenging part was ensuring smooth transitions and maintaining consistent styling between the login and sign-up views.
