@@ -175,6 +175,16 @@ body {
   margin-top: 24px;
 }
 
+.error-message {
+  color: #ff4d4d;
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+input.error {
+  border: 1px solid #ff4d4d;
+}
+
 /* CIRCULAR "i" ICON */
 .info-icon {
   width: 34px;
@@ -626,6 +636,7 @@ body.dark-mode {
   background: #000;
   color: #eaffff;
 }
+
 
 
 
