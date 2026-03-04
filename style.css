@@ -24,6 +24,7 @@
   pointer-events: all;
 }
 
+
 /* AUTH CARD */
 .auth-card {
   width: 360px;
@@ -625,6 +626,7 @@ body.dark-mode {
   background: #000;
   color: #eaffff;
 }
+
 
 
 
