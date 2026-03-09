@@ -1,115 +1,1862 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <link
-      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap"
-      rel="stylesheet"
-    />
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>NEONEX | The Future Starts Here</title>
-    <link rel="stylesheet" href="style.css" />
-  </head>
-  <body>
-    <!-- Hero Section -->
-    <section class="hero">
-      <div class="hero-bg"></div>
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>NEONEX | The Future Starts Here</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    /* ─── RESET & BASE ──────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-      <div class="hero-content">
-        <h1 class="neon-text">
-          <span>N</span><span>E</span><span>O</span><span>N</span><span>E</span
-          ><span>X</span>
-        </h1>
+    :root {
+      --bg:       #050508;
+      --surface:  #0d0e14;
+      --surface2: #12141d;
+      --border:   #1a1d2e;
+      --cyan:     #00f5ff;
+      --magenta:  #ff00aa;
+      --purple:   #7c3aed;
+      --green:    #00ff88;
+      --yellow:   #ffd600;
+      --text:     #e0e6ff;
+      --muted:    #4a5180;
+      --danger:   #ff4466;
+    }
 
-        <p>
-          Where digital identity, creativity, and community converge in real
-          time.
-        </p>
+    html { scroll-behavior: smooth; }
 
-        <button class="cta" id="openAuth">Enter the Future</button>
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+      cursor: crosshair;
+    }
 
-        <div class="info-tooltip">
-          <span class="info-icon">i</span>
-          <div class="tooltip-box">
-            NEONEX is a next-generation social network where creators, thinkers,
-            and futurists connect in real time through immersive digital spaces.
+    /* ─── VIEWS ─────────────────────────────────────── */
+    .view { display: none; }
+    .view.active { display: block; }
+
+    /* ─── SCROLLBAR ─────────────────────────────────── */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--cyan); border-radius: 2px; }
+
+    /* ══════════════════════════════════════════════════
+       LANDING PAGE
+    ══════════════════════════════════════════════════ */
+    #landing { min-height: 100vh; }
+
+    /* HERO */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    /* Animated grid bg */
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0,245,255,0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,245,255,0.05) 1px, transparent 1px);
+      background-size: 60px 60px;
+      animation: gridPan 25s linear infinite;
+    }
+
+    @keyframes gridPan {
+      0%   { transform: translate(0,0); }
+      100% { transform: translate(60px,60px); }
+    }
+
+    /* Floating blobs */
+    .blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(100px);
+      pointer-events: none;
+      opacity: 0.12;
+    }
+    .blob-1 { width:500px;height:500px;background:var(--cyan);   top:-150px;left:-150px; animation:floatA 12s ease-in-out infinite; }
+    .blob-2 { width:400px;height:400px;background:var(--magenta);bottom:-100px;right:-100px;animation:floatB 15s ease-in-out infinite; }
+    .blob-3 { width:300px;height:300px;background:var(--purple); top:40%;left:60%; animation:floatA 10s ease-in-out infinite reverse; }
+
+    @keyframes floatA { 0%,100%{transform:translate(0,0)}   50%{transform:translate(40px,30px)} }
+    @keyframes floatB { 0%,100%{transform:translate(0,0)}   50%{transform:translate(-30px,-40px)} }
+
+    /* Scanlines overlay */
+    .hero::after {
+      content:'';
+      position:absolute;
+      inset:0;
+      background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.15) 2px, rgba(0,0,0,0.15) 4px);
+      pointer-events:none;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      padding: 40px 20px;
+    }
+
+    /* NEONEX logo letters */
+    .neon-text {
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(64px, 14vw, 160px);
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      line-height: 1;
+      margin-bottom: 24px;
+    }
+
+    .neon-text span {
+      display: inline-block;
+      color: var(--cyan);
+      text-shadow:
+        0 0 10px var(--cyan),
+        0 0 40px var(--cyan),
+        0 0 80px rgba(0,245,255,0.4);
+      animation: letterPulse 3s ease-in-out infinite;
+    }
+
+    .neon-text span:nth-child(1){animation-delay:0s}
+    .neon-text span:nth-child(2){animation-delay:.1s;color:var(--magenta);text-shadow:0 0 10px var(--magenta),0 0 40px var(--magenta),0 0 80px rgba(255,0,170,0.4)}
+    .neon-text span:nth-child(3){animation-delay:.2s}
+    .neon-text span:nth-child(4){animation-delay:.3s;color:var(--magenta);text-shadow:0 0 10px var(--magenta),0 0 40px var(--magenta),0 0 80px rgba(255,0,170,0.4)}
+    .neon-text span:nth-child(5){animation-delay:.4s}
+    .neon-text span:nth-child(6){animation-delay:.5s;color:var(--magenta);text-shadow:0 0 10px var(--magenta),0 0 40px var(--magenta),0 0 80px rgba(255,0,170,0.4)}
+
+    @keyframes letterPulse {
+      0%,100%{opacity:1;text-shadow:0 0 10px var(--cyan),0 0 40px var(--cyan),0 0 80px rgba(0,245,255,0.4)}
+      50%{opacity:0.85;text-shadow:0 0 20px var(--cyan),0 0 60px var(--cyan),0 0 120px rgba(0,245,255,0.6)}
+    }
+
+    .hero-sub {
+      font-size: clamp(14px, 2vw, 18px);
+      color: var(--muted);
+      max-width: 520px;
+      margin: 0 auto 36px;
+      line-height: 1.6;
+      letter-spacing: 0.03em;
+    }
+
+    .cta {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 14px 36px;
+      border: 1px solid var(--cyan);
+      background: transparent;
+      color: var(--cyan);
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: color 0.3s;
+      clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+    }
+
+    .cta::before {
+      content:'';
+      position:absolute;
+      inset:0;
+      background: var(--cyan);
+      transform: translateX(-101%);
+      transition: transform 0.3s cubic-bezier(0.16,1,0.3,1);
+    }
+
+    .cta:hover { color: #000; }
+    .cta:hover::before { transform: translateX(0); }
+    .cta span { position: relative; z-index: 1; }
+
+    .info-tooltip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 28px;
+      position: relative;
+    }
+
+    .info-icon {
+      width: 22px; height: 22px;
+      border: 1px solid var(--muted);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px;
+      color: var(--muted);
+      cursor: help;
+    }
+
+    .tooltip-box {
+      position: absolute;
+      bottom: 32px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px 16px;
+      font-size: 13px;
+      color: var(--muted);
+      width: 280px;
+      line-height: 1.5;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+
+    .info-tooltip:hover .tooltip-box { opacity: 1; }
+
+    /* FEATURES */
+    .features {
+      padding: 100px 40px;
+      text-align: center;
+    }
+
+    .features h2 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(22px, 4vw, 36px);
+      font-weight: 700;
+      color: var(--cyan);
+      margin-bottom: 60px;
+      letter-spacing: 0.08em;
+    }
+
+    .feature-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 24px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 36px 28px;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.2s, border-color 0.2s;
+    }
+
+    .card::before {
+      content:'';
+      position:absolute;
+      top:0;left:0;right:0;
+      height:2px;
+      background: linear-gradient(90deg, var(--cyan), var(--magenta));
+    }
+
+    .card:hover { transform: translateY(-4px); border-color: var(--cyan); }
+
+    .card h3 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--cyan);
+      margin-bottom: 12px;
+      letter-spacing: 0.05em;
+    }
+
+    .card p { font-size: 14px; color: var(--muted); line-height: 1.6; }
+
+    footer {
+      text-align: center;
+      padding: 32px;
+      border-top: 1px solid var(--border);
+      font-size: 13px;
+      color: var(--muted);
+      font-family: 'Share Tech Mono', monospace;
+    }
+
+    /* ══════════════════════════════════════════════════
+       AUTH MODAL
+    ══════════════════════════════════════════════════ */
+    .auth-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.85);
+      backdrop-filter: blur(6px);
+      z-index: 200;
+      align-items: center;
+      justify-content: center;
+    }
+    .auth-overlay.open { display: flex; }
+
+    .auth-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 40px 36px;
+      width: 100%;
+      max-width: 420px;
+      position: relative;
+      animation: modalIn 0.4s cubic-bezier(0.16,1,0.3,1);
+    }
+
+    .auth-card::before {
+      content:'';
+      position:absolute;
+      top:0;left:0;right:0;
+      height:2px;
+      background: linear-gradient(90deg, var(--cyan), var(--magenta), var(--purple));
+    }
+
+    @keyframes modalIn {
+      from { opacity:0; transform:scale(0.92) translateY(20px); }
+      to   { opacity:1; transform:scale(1) translateY(0); }
+    }
+
+    .auth-card h2 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--cyan);
+      margin-bottom: 6px;
+      letter-spacing: 0.06em;
+    }
+
+    .auth-subtitle {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 28px;
+      font-family: 'Share Tech Mono', monospace;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 16px; right: 20px;
+      background: none; border: none;
+      color: var(--muted); font-size: 20px;
+      cursor: pointer; transition: color 0.15s;
+    }
+    .close-btn:hover { color: var(--text); }
+
+    .auth-field { margin-bottom: 16px; }
+
+    .auth-field label {
+      display: block;
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 7px;
+      font-family: 'Share Tech Mono', monospace;
+    }
+
+    .auth-field input, .auth-field select {
+      width: 100%;
+      padding: 12px 14px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      appearance: none;
+    }
+
+    .auth-field input:focus, .auth-field select:focus {
+      border-color: var(--cyan);
+      box-shadow: 0 0 0 2px rgba(0,245,255,0.1);
+    }
+
+    .auth-field select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%234a5180' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: calc(100% - 12px) center;
+      cursor: pointer;
+    }
+
+    .auth-error {
+      background: rgba(255,68,102,0.1);
+      border: 1px solid rgba(255,68,102,0.3);
+      color: var(--danger);
+      border-radius: 4px;
+      padding: 10px 14px;
+      font-size: 13px;
+      margin-bottom: 16px;
+      display: none;
+      font-family: 'Share Tech Mono', monospace;
+    }
+    .auth-error.show { display: block; }
+
+    .auth-submit {
+      width: 100%;
+      margin-top: 8px;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 13px;
+      border: 1px solid var(--cyan);
+      background: transparent;
+      color: var(--cyan);
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: color 0.3s;
+      clip-path: polygon(6px 0%, 100% 0%, calc(100% - 6px) 100%, 0% 100%);
+    }
+
+    .auth-submit::before {
+      content:'';
+      position:absolute;
+      inset:0;
+      background: var(--cyan);
+      transform: translateX(-101%);
+      transition: transform 0.3s cubic-bezier(0.16,1,0.3,1);
+    }
+
+    .auth-submit:hover { color: #000; }
+    .auth-submit:hover::before { transform: translateX(0); }
+    .auth-submit-text { position: relative; z-index: 1; }
+
+    .auth-switch {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .auth-switch span {
+      color: var(--cyan);
+      cursor: pointer;
+      text-decoration: underline;
+    }
+
+    .demo-hint {
+      background: rgba(0,245,255,0.04);
+      border: 1px solid rgba(0,245,255,0.12);
+      border-radius: 4px;
+      padding: 10px 14px;
+      font-size: 12px;
+      color: var(--muted);
+      font-family: 'Share Tech Mono', monospace;
+      margin-bottom: 20px;
+      line-height: 1.7;
+    }
+
+    .demo-hint strong { color: var(--cyan); }
+
+    /* ══════════════════════════════════════════════════
+       SHARED DASHBOARD LAYOUT
+    ══════════════════════════════════════════════════ */
+    .dashboard { display: flex; min-height: 100vh; }
+
+    /* Sidebar */
+    .sidebar {
+      width: 220px;
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      padding: 24px 0;
+      position: fixed;
+      top:0;left:0;bottom:0;
+      z-index: 10;
+    }
+
+    .sb-brand {
+      display: flex; align-items: center; gap: 10px;
+      padding: 0 20px 24px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .sb-logo {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 16px;
+      font-weight: 900;
+      color: var(--cyan);
+      text-shadow: 0 0 12px var(--cyan);
+      letter-spacing: 0.1em;
+    }
+
+    .sb-nav { padding: 20px 10px; flex: 1; }
+
+    .sb-label {
+      font-size: 9px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding: 0 10px;
+      margin-bottom: 6px;
+      margin-top: 14px;
+      font-family: 'Share Tech Mono', monospace;
+    }
+
+    .sb-item {
+      display: flex; align-items: center; gap: 10px;
+      padding: 9px 10px;
+      border-radius: 3px;
+      font-size: 13px;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all 0.15s;
+      border: 1px solid transparent;
+    }
+
+    .sb-item:hover { background: var(--surface2); color: var(--text); }
+    .sb-item.active { background: rgba(0,245,255,0.07); color: var(--cyan); border-color: rgba(0,245,255,0.15); }
+    .sb-item .si { width: 18px; text-align: center; font-size: 14px; }
+
+    .sb-footer {
+      padding: 16px 20px;
+      border-top: 1px solid var(--border);
+    }
+
+    .sb-user {
+      display: flex; align-items: center; gap: 10px;
+    }
+
+    .sb-avatar {
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px; font-weight: 700; color: #000;
+      flex-shrink: 0;
+    }
+
+    .sb-uname { font-size: 12px; font-weight: 500; flex: 1; font-family: 'Share Tech Mono', monospace; }
+    .sb-urole { font-size: 10px; color: var(--muted); }
+
+    .sb-logout {
+      background: none; border: none; color: var(--muted);
+      cursor: pointer; font-size: 15px; transition: color 0.15s;
+    }
+    .sb-logout:hover { color: var(--danger); }
+
+    /* Main area */
+    .dash-main {
+      margin-left: 220px;
+      flex: 1;
+      padding: 36px 40px;
+      animation: fadeUp 0.5s ease both;
+    }
+
+    @keyframes fadeUp {
+      from { opacity:0; transform:translateY(14px); }
+      to   { opacity:1; transform:translateY(0); }
+    }
+
+    .dash-topbar {
+      display: flex; align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 32px;
+    }
+
+    .dash-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 24px; font-weight: 700;
+      letter-spacing: 0.06em;
+    }
+
+    .dash-subtitle { font-size: 13px; color: var(--muted); margin-top: 4px; font-family: 'Share Tech Mono', monospace; }
+
+    .dash-badge {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 7px 14px;
+      border-radius: 3px;
+      font-size: 12px;
+      color: var(--muted);
+      font-family: 'Share Tech Mono', monospace;
+    }
+
+    /* ── PANEL ── */
+    .panel {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+      margin-bottom: 24px;
+    }
+
+    .panel-head {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 18px 22px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .panel-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 13px; font-weight: 700;
+      color: var(--cyan); letter-spacing: 0.06em;
+    }
+
+    .tag {
+      font-size: 11px; padding: 3px 10px;
+      border-radius: 20px; font-family: 'Share Tech Mono', monospace;
+    }
+
+    /* ── STATS ── */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 18px;
+      margin-bottom: 24px;
+    }
+
+    .stat-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 20px;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.2s;
+    }
+
+    .stat-card:hover { transform: translateY(-2px); }
+
+    .stat-card::after {
+      content:'';
+      position:absolute;
+      top:0;left:0;right:0;
+      height:2px;
+    }
+
+    .stat-card.s1::after { background: var(--cyan); }
+    .stat-card.s2::after { background: var(--magenta); }
+    .stat-card.s3::after { background: var(--green); }
+    .stat-card.s4::after { background: var(--yellow); }
+
+    .stat-icon { font-size: 20px; margin-bottom: 12px; }
+    .stat-val {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 30px; font-weight: 900;
+      line-height: 1; margin-bottom: 4px;
+    }
+    .stat-lbl { font-size: 12px; color: var(--muted); }
+    .stat-chg { font-size: 11px; margin-top: 10px; font-family: 'Share Tech Mono', monospace; }
+    .up   { color: var(--green); }
+    .down { color: var(--danger); }
+
+    /* ── TABLE ── */
+    table { width: 100%; border-collapse: collapse; }
+
+    thead th {
+      padding: 11px 18px;
+      text-align: left;
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      background: var(--surface2);
+      border-bottom: 1px solid var(--border);
+      font-family: 'Share Tech Mono', monospace;
+    }
+
+    tbody tr {
+      border-bottom: 1px solid var(--border);
+      transition: background 0.1s;
+    }
+
+    tbody tr:last-child { border-bottom: none; }
+    tbody tr:hover { background: rgba(255,255,255,0.02); }
+
+    td {
+      padding: 13px 18px;
+      font-size: 13px;
+      vertical-align: middle;
+    }
+
+    .td-mono { font-family: 'Share Tech Mono', monospace; color: var(--muted); font-size: 12px; }
+
+    .user-cell { display: flex; align-items: center; gap: 10px; }
+    .u-avatar {
+      width: 30px; height: 30px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px; font-weight: 700;
+      flex-shrink: 0;
+    }
+    .u-name { font-weight: 500; }
+    .u-email { font-size: 11px; color: var(--muted); font-family: 'Share Tech Mono', monospace; }
+
+    .rbadge {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-family: 'Share Tech Mono', monospace;
+    }
+
+    .status-dot { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; }
+    .dot { width: 6px; height: 6px; border-radius: 50%; }
+
+    .btn-del, .btn-edit {
+      padding: 5px 11px;
+      border-radius: 3px;
+      font-size: 11px;
+      border: none;
+      cursor: pointer;
+      transition: opacity 0.15s;
+      font-family: 'Share Tech Mono', monospace;
+    }
+    .btn-del  { background: rgba(255,68,102,0.15); color: #ff7090; border: 1px solid rgba(255,68,102,0.3); }
+    .btn-edit { background: rgba(124,58,237,0.15); color: #a78bfa; border: 1px solid rgba(124,58,237,0.3); margin-right: 6px; }
+    .btn-del:hover, .btn-edit:hover { opacity: 0.75; }
+
+    /* ── FORM (add user + user profile) ── */
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+    .form-body { padding: 24px; }
+
+    .f-field { margin-bottom: 18px; }
+    .f-field label {
+      display: block;
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 7px;
+      font-family: 'Share Tech Mono', monospace;
+    }
+
+    .f-field input, .f-field select, .f-field textarea {
+      width: 100%;
+      padding: 11px 13px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .f-field input:focus, .f-field select:focus, .f-field textarea:focus {
+      border-color: var(--cyan);
+      box-shadow: 0 0 0 2px rgba(0,245,255,0.08);
+    }
+
+    .f-field input.err { border-color: var(--danger); }
+    .f-err { color: var(--danger); font-size: 11px; margin-top: 5px; display: none; font-family:'Share Tech Mono',monospace; }
+    .f-err.show { display: block; }
+
+    .f-field select {
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%234a5180' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: calc(100% - 10px) center;
+      cursor: pointer;
+    }
+
+    .f-field textarea { resize: vertical; min-height: 80px; line-height: 1.5; }
+
+    .form-actions { display: flex; gap: 12px; justify-content: flex-end; margin-top: 22px; }
+
+    .btn-cancel {
+      padding: 10px 20px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      color: var(--text);
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 12px;
+      cursor: pointer;
+      transition: opacity 0.15s;
+    }
+    .btn-cancel:hover { opacity: 0.7; }
+
+    .btn-submit {
+      padding: 10px 24px;
+      background: transparent;
+      border: 1px solid var(--cyan);
+      border-radius: 3px;
+      color: var(--cyan);
+      font-family: 'Orbitron', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: color 0.3s;
+      clip-path: polygon(5px 0%, 100% 0%, calc(100% - 5px) 100%, 0% 100%);
+    }
+
+    .btn-submit::before {
+      content:'';
+      position:absolute;
+      inset:0;
+      background: var(--cyan);
+      transform: translateX(-101%);
+      transition: transform 0.3s;
+    }
+
+    .btn-submit:hover { color: #000; }
+    .btn-submit:hover::before { transform: translateX(0); }
+    .btn-submit span { position: relative; z-index: 1; }
+
+    /* Activity feed */
+    .act-item {
+      display: flex; align-items: center; gap: 12px;
+      padding: 12px 22px;
+      border-bottom: 1px solid var(--border);
+    }
+    .act-item:last-child { border-bottom: none; }
+    .act-color { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+    .act-text { font-size: 13px; flex: 1; }
+    .act-text small { display: block; color: var(--muted); font-size: 11px; margin-top: 2px; font-family: 'Share Tech Mono', monospace; }
+    .act-tag { font-size: 10px; padding: 2px 8px; border-radius: 10px; font-family:'Share Tech Mono',monospace; }
+
+    /* User dashboard specific */
+    .profile-hero {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 32px;
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      margin-bottom: 24px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .profile-hero::before {
+      content:'';
+      position:absolute;
+      top:0;left:0;right:0;
+      height:2px;
+      background: linear-gradient(90deg, var(--cyan), var(--magenta));
+    }
+
+    .profile-avatar-lg {
+      width: 72px; height: 72px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 26px; font-weight: 900;
+      flex-shrink: 0;
+    }
+
+    .profile-name {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 20px; font-weight: 700;
+      letter-spacing: 0.05em;
+    }
+
+    .profile-email { font-size: 13px; color: var(--muted); font-family: 'Share Tech Mono', monospace; margin-top: 4px; }
+
+    .profile-meta { display: flex; gap: 16px; margin-top: 10px; }
+    .profile-meta span {
+      font-size: 12px;
+      color: var(--muted);
+      font-family: 'Share Tech Mono', monospace;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      padding: 3px 10px;
+      border-radius: 3px;
+    }
+
+    /* Two-column layout for user dash bottom */
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+
+    /* Modal confirm */
+    .confirm-overlay {
+      display: none;
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.8);
+      backdrop-filter: blur(4px);
+      z-index: 300;
+      align-items: center; justify-content: center;
+    }
+    .confirm-overlay.open { display: flex; }
+    .confirm-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 28px;
+      width: 340px;
+      animation: modalIn 0.3s cubic-bezier(0.16,1,0.3,1);
+    }
+    .confirm-box h3 { font-family:'Orbitron',sans-serif; font-size:16px; color:var(--danger); margin-bottom:10px; }
+    .confirm-box p  { font-size:13px; color:var(--muted); margin-bottom:22px; line-height:1.5; }
+    .confirm-actions { display:flex; gap:10px; justify-content:flex-end; }
+
+    .btn-confirm-del {
+      padding: 9px 16px;
+      background: rgba(255,68,102,0.15);
+      border: 1px solid rgba(255,68,102,0.4);
+      border-radius: 3px;
+      color: var(--danger);
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 12px;
+      cursor: pointer;
+    }
+    .btn-confirm-del:hover { opacity: 0.8; }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 24px; right: 24px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 13px 20px;
+      font-size: 13px;
+      font-family: 'Share Tech Mono', monospace;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+      z-index: 500;
+      transform: translateY(80px);
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(0.16,1,0.3,1);
+      display: flex; align-items: center; gap: 10px;
+    }
+    .toast.show { transform: translateY(0); opacity: 1; }
+    .toast.ok   { border-color: rgba(0,255,136,0.4); color: var(--green); }
+    .toast.bad  { border-color: rgba(255,68,102,0.4); color: var(--danger); }
+
+    /* Tabs inside dashboard panels */
+    .dash-tabs { display: flex; gap: 0; }
+    .dash-tab {
+      padding: 9px 18px;
+      font-size: 12px;
+      font-family: 'Orbitron', sans-serif;
+      letter-spacing: 0.05em;
+      color: var(--muted);
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      transition: all 0.15s;
+    }
+    .dash-tab.active { color: var(--cyan); border-bottom-color: var(--cyan); }
+    .dash-tab:hover:not(.active) { color: var(--text); }
+
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+
+    /* Empty state */
+    .empty-state { padding: 48px; text-align: center; color: var(--muted); }
+    .empty-state .e-icon { font-size: 32px; margin-bottom: 12px; }
+    .empty-state p { font-size: 13px; font-family: 'Share Tech Mono', monospace; }
+
+    /* Responsive sidebar */
+    @media (max-width: 768px) {
+      .sidebar { width: 60px; }
+      .sb-brand .sb-logo { display: none; }
+      .sb-item span:not(.si) { display: none; }
+      .sb-label { display: none; }
+      .sb-uname, .sb-urole { display: none; }
+      .dash-main { margin-left: 60px; padding: 24px 16px; }
+      .two-col, .form-grid { grid-template-columns: 1fr; }
+      .stats-grid { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════════════
+     VIEW 1: LANDING PAGE
+════════════════════════════════════════════════ -->
+<div id="landing" class="view active">
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+
+    <div class="hero-content">
+      <h1 class="neon-text">
+        <span>N</span><span>E</span><span>O</span><span>N</span><span>E</span><span>X</span>
+      </h1>
+
+      <p class="hero-sub">Where digital identity, creativity, and community converge in real time.</p>
+
+      <button class="cta" onclick="openAuth()"><span>Enter the Future</span></button>
+
+      <div class="info-tooltip">
+        <span class="info-icon">i</span>
+        <div class="tooltip-box">
+          NEONEX is a next-generation social network where creators, thinkers, and futurists connect in real time through immersive digital spaces.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="features">
+    <h2>Why NEONEX?</h2>
+    <div class="feature-cards">
+      <div class="card">
+        <h3>Futuristic Design</h3>
+        <p>Inspired by cyberpunk and next-gen interfaces.</p>
+      </div>
+      <div class="card">
+        <h3>Clean &amp; Minimal</h3>
+        <p>Focused on clarity, readability, and visual impact.</p>
+      </div>
+      <div class="card">
+        <h3>Responsive Layout</h3>
+        <p>Looks great on desktop, tablet, and mobile.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer><p>© 2026 NEONEX — Created by Antonio Juan</p></footer>
+</div>
+
+
+<!-- ════════════════════════════════════════════════
+     VIEW 2: ADMIN DASHBOARD
+════════════════════════════════════════════════ -->
+<div id="adminView" class="view">
+  <div class="dashboard">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sb-brand">
+        <span class="sb-logo">NEONEX</span>
+      </div>
+      <nav class="sb-nav">
+        <div class="sb-label">System</div>
+        <div class="sb-item active" onclick="adminTab('overview',this)"><span class="si">⬛</span> Dashboard</div>
+        <div class="sb-label">Management</div>
+        <div class="sb-item" onclick="adminTab('users',this)"><span class="si">👥</span> Users</div>
+        <div class="sb-item" onclick="adminTab('adduser',this)"><span class="si">➕</span> Add User</div>
+        <div class="sb-label">System</div>
+        <div class="sb-item" onclick="showToast('Reports coming soon','ok')"><span class="si">📊</span> Reports</div>
+        <div class="sb-item" onclick="showToast('Settings coming soon','ok')"><span class="si">⚙️</span> Settings</div>
+      </nav>
+      <div class="sb-footer">
+        <div class="sb-user">
+          <div class="sb-avatar" id="adminSbAvatar" style="background:linear-gradient(135deg,#00f5ff,#ff00aa)">A</div>
+          <div>
+            <div class="sb-uname" id="adminSbName">Admin</div>
+            <div class="sb-urole">Super Admin</div>
+          </div>
+          <button class="sb-logout" onclick="logout()" title="Logout">⏻</button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main -->
+    <main class="dash-main">
+
+      <!-- OVERVIEW TAB -->
+      <div id="tab-overview" class="tab-content active">
+        <div class="dash-topbar">
+          <div>
+            <div class="dash-title" style="color:var(--cyan)">DASHBOARD</div>
+            <div class="dash-subtitle">Welcome back, Admin. System status: <span style="color:var(--green)">● ONLINE</span></div>
+          </div>
+          <div class="dash-badge" id="adminDate">—</div>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-card s1">
+            <div class="stat-icon">👤</div>
+            <div class="stat-val" style="color:var(--cyan)" id="statTotal">—</div>
+            <div class="stat-lbl">Total Users</div>
+            <div class="stat-chg up">↑ 12% this cycle</div>
+          </div>
+          <div class="stat-card s2">
+            <div class="stat-icon">🛡️</div>
+            <div class="stat-val" style="color:var(--magenta)" id="statAdmins">—</div>
+            <div class="stat-lbl">Admins</div>
+            <div class="stat-chg up">↑ 1 new</div>
+          </div>
+          <div class="stat-card s3">
+            <div class="stat-icon">✅</div>
+            <div class="stat-val" style="color:var(--green)" id="statActive">—</div>
+            <div class="stat-lbl">Active Users</div>
+            <div class="stat-chg up">↑ High engagement</div>
+          </div>
+          <div class="stat-card s4">
+            <div class="stat-icon">⚠️</div>
+            <div class="stat-val" style="color:var(--yellow)">3</div>
+            <div class="stat-lbl">Pending Review</div>
+            <div class="stat-chg down">↓ Needs attention</div>
+          </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:3fr 2fr;gap:20px">
+          <div class="panel">
+            <div class="panel-head">
+              <span class="panel-title">RECENT ACTIVITY</span>
+              <span class="tag" style="background:rgba(0,245,255,0.08);color:var(--cyan)">LIVE</span>
+            </div>
+            <div class="act-item">
+              <div class="act-color" style="background:var(--cyan)"></div>
+              <div class="act-text">New user <strong>Maria Santos</strong> registered<small>2 minutes ago</small></div>
+              <span class="act-tag" style="background:rgba(0,245,255,0.1);color:var(--cyan)">NEW</span>
+            </div>
+            <div class="act-item">
+              <div class="act-color" style="background:var(--danger)"></div>
+              <div class="act-text">User <strong>Carlos Reyes</strong> deleted<small>15 minutes ago</small></div>
+              <span class="act-tag" style="background:rgba(255,68,102,0.1);color:var(--danger)">DEL</span>
+            </div>
+            <div class="act-item">
+              <div class="act-color" style="background:var(--green)"></div>
+              <div class="act-text">Role updated for <strong>Ana Cruz</strong><small>1 hour ago</small></div>
+              <span class="act-tag" style="background:rgba(0,255,136,0.1);color:var(--green)">UPD</span>
+            </div>
+            <div class="act-item">
+              <div class="act-color" style="background:var(--yellow)"></div>
+              <div class="act-text">System config modified by <strong>Admin</strong><small>3 hours ago</small></div>
+              <span class="act-tag" style="background:rgba(255,214,0,0.1);color:var(--yellow)">SYS</span>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-head">
+              <span class="panel-title">QUICK ACCESS</span>
+            </div>
+            <div style="padding:12px">
+              <div class="sb-item" style="margin-bottom:8px;border:1px solid var(--border)" onclick="adminTab('users', document.querySelectorAll('#adminView .sb-item')[1])">
+                <span class="si">👥</span> Manage Users
+              </div>
+              <div class="sb-item" style="margin-bottom:8px;border:1px solid var(--border)" onclick="adminTab('adduser', document.querySelectorAll('#adminView .sb-item')[2])">
+                <span class="si">➕</span> Add New User
+              </div>
+              <div class="sb-item" style="margin-bottom:8px;border:1px solid var(--border)" onclick="showToast('Reports coming soon','ok')">
+                <span class="si">📊</span> View Reports
+              </div>
+              <div class="sb-item" style="border:1px solid var(--border)" onclick="showToast('Settings coming soon','ok')">
+                <span class="si">⚙️</span> System Settings
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </section>
 
-    <!-- Content Section -->
-    <section class="features">
-      <h2>Why NEONEX?</h2>
-      <div class="feature-cards">
-        <div class="card">
-          <h3>Futuristic Design</h3>
-          <p>Inspired by cyberpunk and next-gen interfaces.</p>
+      <!-- USERS TAB -->
+      <div id="tab-users" class="tab-content">
+        <div class="dash-topbar">
+          <div>
+            <div class="dash-title" style="color:var(--cyan)">MANAGE USERS</div>
+            <div class="dash-subtitle">View, edit, and delete user accounts</div>
+          </div>
+          <button class="btn-submit" onclick="adminTab('adduser', document.querySelectorAll('#adminView .sb-item')[2])">
+            <span>＋ ADD USER</span>
+          </button>
         </div>
-        <div class="card">
-          <h3>Clean & Minimal</h3>
-          <p>Focused on clarity, readability, and visual impact.</p>
+
+        <!-- Search -->
+        <div style="display:flex;gap:12px;margin-bottom:18px">
+          <div style="position:relative;flex:1">
+            <input type="text" id="userSearch" placeholder="Search users…" oninput="renderUserTable()"
+              style="width:100%;padding:10px 14px 10px 36px;background:var(--surface);border:1px solid var(--border);border-radius:3px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:13px;outline:none"/>
+            <span style="position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:12px">🔍</span>
+          </div>
+          <select id="roleFilter" onchange="renderUserTable()"
+            style="padding:10px 30px 10px 12px;background:var(--surface);border:1px solid var(--border);border-radius:3px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:13px;outline:none;appearance:none;cursor:pointer">
+            <option value="">All Roles</option>
+            <option>Admin</option>
+            <option>Editor</option>
+            <option>Viewer</option>
+          </select>
         </div>
-        <div class="card">
-          <h3>Responsive Layout</h3>
-          <p>Looks great on desktop, tablet, and mobile.</p>
+
+        <div class="panel">
+          <div class="panel-head">
+            <span class="panel-title">USER ACCOUNTS</span>
+            <span class="tag" id="userCount" style="background:rgba(0,245,255,0.08);color:var(--cyan)">0 users</span>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th><th>User</th><th>Role</th><th>Status</th><th>Joined</th><th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="userTableBody"></tbody>
+          </table>
+          <div class="empty-state" id="userEmpty" style="display:none">
+            <div class="e-icon">🔍</div>
+            <p>No users match your query.</p>
+          </div>
         </div>
       </div>
-    </section>
 
-    <footer>
-      <p>© 2026 NEONEX — Created by Antonio Juan</p>
-    </footer>
+      <!-- ADD USER TAB -->
+      <div id="tab-adduser" class="tab-content">
+        <div class="dash-topbar">
+          <div>
+            <div class="dash-title" style="color:var(--cyan)">ADD USER</div>
+            <div class="dash-subtitle">Create a new user account in the system</div>
+          </div>
+        </div>
 
-    <script src="script.js" defer></script>
+        <div style="display:grid;grid-template-columns:1fr 300px;gap:22px;align-items:start">
+          <div class="panel">
+            <div class="panel-head"><span class="panel-title">USER INFORMATION</span></div>
+            <div class="form-body">
+              <div class="form-grid">
+                <div class="f-field">
+                  <label>First Name *</label>
+                  <input type="text" id="addFirst" placeholder="Ana" oninput="updateAddPreview()"/>
+                  <div class="f-err" id="addFirstErr">Required.</div>
+                </div>
+                <div class="f-field">
+                  <label>Last Name *</label>
+                  <input type="text" id="addLast" placeholder="Reyes" oninput="updateAddPreview()"/>
+                  <div class="f-err" id="addLastErr">Required.</div>
+                </div>
+              </div>
+              <div class="f-field">
+                <label>Email *</label>
+                <input type="email" id="addEmail" placeholder="user@neonex.io" oninput="updateAddPreview()"/>
+                <div class="f-err" id="addEmailErr">Valid email required.</div>
+              </div>
+              <div class="form-grid">
+                <div class="f-field">
+                  <label>Role *</label>
+                  <select id="addRole" onchange="updateAddPreview()">
+                    <option value="">Select…</option>
+                    <option>Admin</option>
+                    <option>Editor</option>
+                    <option>Viewer</option>
+                  </select>
+                  <div class="f-err" id="addRoleErr">Required.</div>
+                </div>
+                <div class="f-field">
+                  <label>Status</label>
+                  <select id="addStatus">
+                    <option>Active</option>
+                    <option>Inactive</option>
+                  </select>
+                </div>
+              </div>
+              <div class="f-field">
+                <label>Temp Password *</label>
+                <input type="password" id="addPass" placeholder="Min. 8 chars"/>
+                <div class="f-err" id="addPassErr">Min 8 characters.</div>
+              </div>
+              <div class="form-actions">
+                <button class="btn-cancel" onclick="adminTab('users',null)">Cancel</button>
+                <button class="btn-submit" onclick="submitAddUser()"><span>＋ ADD USER</span></button>
+              </div>
+            </div>
+          </div>
 
-    <!-- AUTH MODAL -->
-    <div class="auth-overlay" id="authOverlay">
-      <div class="auth-card">
-        <h2 id="formTitle">Login</h2>
+          <div>
+            <!-- Preview card -->
+            <div class="panel" style="margin-bottom:16px">
+              <div class="panel-head"><span class="panel-title">PREVIEW</span></div>
+              <div style="padding:24px;text-align:center">
+                <div id="addPreviewAvatar" class="u-avatar" style="width:56px;height:56px;font-size:20px;margin:0 auto 14px;background:linear-gradient(135deg,#7c3aed,#00f5ff)">?</div>
+                <div id="addPreviewName" style="font-family:'Orbitron',sans-serif;font-size:15px;font-weight:700;margin-bottom:4px">Full Name</div>
+                <div id="addPreviewEmail" style="font-size:12px;color:var(--muted);font-family:'Share Tech Mono',monospace;margin-bottom:10px">email@neonex.io</div>
+                <div id="addPreviewRole" class="rbadge" style="background:rgba(107,114,128,0.1);color:var(--muted)">No role</div>
+              </div>
+            </div>
 
-        <form id="authForm">
-          <input type="email" placeholder="Email" required />
-          <input type="password" placeholder="Password" required />
-          <input
-            type="password"
-            id="confirmPassword"
-            placeholder="Confirm Password"
-            hidden
-          />
-
-          <button type="submit" class="cta">Access System</button>
-        </form>
-
-        <p class="auth-switch">
-          Don’t have an account?
-          <span id="toggleAuth">Sign up</span>
-        </p>
+            <!-- Recently added -->
+            <div class="panel">
+              <div class="panel-head"><span class="panel-title">RECENTLY ADDED</span></div>
+              <div id="recentAdded" style="padding:12px">
+                <div style="padding:12px;font-size:12px;color:var(--muted);font-family:'Share Tech Mono',monospace">None this session.</div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
+
+    </main>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════════════════
+     VIEW 3: USER DASHBOARD
+════════════════════════════════════════════════ -->
+<div id="userView" class="view">
+  <div class="dashboard">
+    <aside class="sidebar">
+      <div class="sb-brand">
+        <span class="sb-logo">NEONEX</span>
+      </div>
+      <nav class="sb-nav">
+        <div class="sb-label">Menu</div>
+        <div class="sb-item active" onclick="userTab('home',this)"><span class="si">🏠</span> Home</div>
+        <div class="sb-item" onclick="userTab('profile',this)"><span class="si">👤</span> My Profile</div>
+        <div class="sb-item" onclick="userTab('feed',this)"><span class="si">📡</span> Feed</div>
+        <div class="sb-item" onclick="userTab('settings',this)"><span class="si">⚙️</span> Settings</div>
+      </nav>
+      <div class="sb-footer">
+        <div class="sb-user">
+          <div class="sb-avatar" id="userSbAvatar" style="background:linear-gradient(135deg,#7c3aed,#00f5ff)">U</div>
+          <div>
+            <div class="sb-uname" id="userSbName">User</div>
+            <div class="sb-urole" style="color:var(--magenta)">Member</div>
+          </div>
+          <button class="sb-logout" onclick="logout()" title="Logout">⏻</button>
+        </div>
+      </div>
+    </aside>
+
+    <main class="dash-main">
+
+      <!-- HOME TAB -->
+      <div id="utab-home" class="tab-content active">
+        <div class="dash-topbar">
+          <div>
+            <div class="dash-title" style="color:var(--magenta)">HOME</div>
+            <div class="dash-subtitle" id="userWelcome">Welcome back.</div>
+          </div>
+          <div class="dash-badge" id="userDate">—</div>
+        </div>
+
+        <div class="profile-hero">
+          <div class="profile-avatar-lg" id="userProfileAvLg" style="background:linear-gradient(135deg,#7c3aed,#00f5ff);color:#fff">U</div>
+          <div>
+            <div class="profile-name" id="userProfileName">—</div>
+            <div class="profile-email" id="userProfileEmail">—</div>
+            <div class="profile-meta">
+              <span id="userProfileRole">Viewer</span>
+              <span>● Active</span>
+              <span id="userJoined">Joined 2026</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="two-col">
+          <div class="panel">
+            <div class="panel-head"><span class="panel-title">ACTIVITY</span></div>
+            <div class="act-item">
+              <div class="act-color" style="background:var(--magenta)"></div>
+              <div class="act-text">You logged in<small>Just now</small></div>
+            </div>
+            <div class="act-item">
+              <div class="act-color" style="background:var(--cyan)"></div>
+              <div class="act-text">Profile viewed by 3 users<small>Today</small></div>
+            </div>
+            <div class="act-item">
+              <div class="act-color" style="background:var(--green)"></div>
+              <div class="act-text">New connection request<small>Yesterday</small></div>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-head"><span class="panel-title">STATS</span></div>
+            <div style="padding:20px">
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+                <div style="background:var(--surface2);border:1px solid var(--border);border-radius:3px;padding:14px;text-align:center">
+                  <div style="font-family:'Orbitron',sans-serif;font-size:24px;font-weight:900;color:var(--magenta)">12</div>
+                  <div style="font-size:11px;color:var(--muted);margin-top:4px">Connections</div>
+                </div>
+                <div style="background:var(--surface2);border:1px solid var(--border);border-radius:3px;padding:14px;text-align:center">
+                  <div style="font-family:'Orbitron',sans-serif;font-size:24px;font-weight:900;color:var(--cyan)">5</div>
+                  <div style="font-size:11px;color:var(--muted);margin-top:4px">Posts</div>
+                </div>
+                <div style="background:var(--surface2);border:1px solid var(--border);border-radius:3px;padding:14px;text-align:center">
+                  <div style="font-family:'Orbitron',sans-serif;font-size:24px;font-weight:900;color:var(--green)">48</div>
+                  <div style="font-size:11px;color:var(--muted);margin-top:4px">Reactions</div>
+                </div>
+                <div style="background:var(--surface2);border:1px solid var(--border);border-radius:3px;padding:14px;text-align:center">
+                  <div style="font-family:'Orbitron',sans-serif;font-size:24px;font-weight:900;color:var(--yellow)">2</div>
+                  <div style="font-size:11px;color:var(--muted);margin-top:4px">Spaces</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PROFILE TAB -->
+      <div id="utab-profile" class="tab-content">
+        <div class="dash-topbar">
+          <div>
+            <div class="dash-title" style="color:var(--magenta)">MY PROFILE</div>
+            <div class="dash-subtitle">Edit your public information</div>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-head"><span class="panel-title">PROFILE INFO</span></div>
+          <div class="form-body">
+            <div class="form-grid">
+              <div class="f-field">
+                <label>Display Name</label>
+                <input type="text" id="profName" placeholder="Your name"/>
+              </div>
+              <div class="f-field">
+                <label>Email</label>
+                <input type="email" id="profEmail" placeholder="your@email.com"/>
+              </div>
+            </div>
+            <div class="f-field">
+              <label>Bio</label>
+              <textarea id="profBio" placeholder="Tell the NEONEX community about yourself…"></textarea>
+            </div>
+            <div class="form-actions">
+              <button class="btn-submit" onclick="saveProfile()"><span>SAVE CHANGES</span></button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FEED TAB -->
+      <div id="utab-feed" class="tab-content">
+        <div class="dash-topbar">
+          <div>
+            <div class="dash-title" style="color:var(--magenta)">FEED</div>
+            <div class="dash-subtitle">What's happening in your network</div>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-head"><span class="panel-title">NETWORK PULSE</span></div>
+          <div class="act-item">
+            <div class="act-color" style="background:var(--cyan)"></div>
+            <div class="act-text"><strong>@syntax_drifter</strong> posted: "The grid never sleeps."<small>5 min ago</small></div>
+          </div>
+          <div class="act-item">
+            <div class="act-color" style="background:var(--magenta)"></div>
+            <div class="act-text"><strong>@zero_404</strong> joined your space<small>22 min ago</small></div>
+          </div>
+          <div class="act-item">
+            <div class="act-color" style="background:var(--green)"></div>
+            <div class="act-text"><strong>@luna_pixel</strong> reacted to your post<small>1 hr ago</small></div>
+          </div>
+          <div class="act-item">
+            <div class="act-color" style="background:var(--yellow)"></div>
+            <div class="act-text"><strong>NEONEX</strong> announced new creator tools<small>3 hrs ago</small></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SETTINGS TAB -->
+      <div id="utab-settings" class="tab-content">
+        <div class="dash-topbar">
+          <div>
+            <div class="dash-title" style="color:var(--magenta)">SETTINGS</div>
+            <div class="dash-subtitle">Manage your account preferences</div>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-head"><span class="panel-title">ACCOUNT</span></div>
+          <div class="form-body">
+            <div class="f-field">
+              <label>Change Password</label>
+              <input type="password" placeholder="New password…"/>
+            </div>
+            <div class="f-field">
+              <label>Confirm Password</label>
+              <input type="password" placeholder="Confirm new password…"/>
+            </div>
+            <div class="form-actions">
+              <button class="btn-submit" onclick="showToast('Password update is a demo feature','ok')"><span>UPDATE PASSWORD</span></button>
+            </div>
+          </div>
+        </div>
+        <div class="panel" style="margin-top:20px">
+          <div class="panel-head"><span class="panel-title">DANGER ZONE</span></div>
+          <div class="form-body">
+            <button class="btn-del" onclick="logout()" style="font-size:13px;padding:10px 20px">Logout of NEONEX</button>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════════════════
+     AUTH MODAL
+════════════════════════════════════════════════ -->
+<div class="auth-overlay" id="authOverlay">
+  <div class="auth-card">
+    <button class="close-btn" onclick="closeAuth()">✕</button>
+    <h2 id="authTitle">LOGIN</h2>
+    <div class="auth-subtitle" id="authSub">// Access your NEONEX account</div>
+
+    <div class="demo-hint" id="demoHint">
+      <strong>DEMO CREDENTIALS</strong><br/>
+      Admin → admin@neonex.io / admin123<br/>
+      User &nbsp;→ user@neonex.io / user1234
     </div>
-    <!-- AUTH MODAL -->
-    <div class="auth-overlay" id="authOverlay">
-      <div class="auth-card">
-        <h2 id="formTitle">Login</h2>
 
-        <form id="authForm">
-          <input type="email" placeholder="Email" required />
-          <input type="password" placeholder="Password" required />
-          <input
-            type="password"
-            id="confirmPassword"
-            placeholder="Confirm Password"
-            hidden
-          />
+    <div class="auth-error" id="authError">Invalid credentials.</div>
 
-          <button type="submit" class="cta">Access System</button>
-        </form>
-
-        <p class="auth-switch">
-          Don’t have an account?
-          <span id="toggleAuth">Sign up</span>
-        </p>
-      </div>
+    <div class="auth-field">
+      <label>Email</label>
+      <input type="email" id="loginEmail" placeholder="you@neonex.io"/>
     </div>
-  </body>
+    <div class="auth-field">
+      <label>Password</label>
+      <input type="password" id="loginPass" placeholder="••••••••"/>
+    </div>
+    <div class="auth-field" id="confirmField" style="display:none">
+      <label>Confirm Password</label>
+      <input type="password" id="loginConfirm" placeholder="••••••••"/>
+    </div>
+    <div class="auth-field" id="roleField" style="display:none">
+      <label>Register as</label>
+      <select id="signupRole">
+        <option value="Viewer">Viewer</option>
+        <option value="Editor">Editor</option>
+      </select>
+    </div>
+
+    <button class="auth-submit" onclick="handleAuth()">
+      <span class="auth-submit-text" id="authBtnTxt">ACCESS SYSTEM</span>
+    </button>
+
+    <p class="auth-switch">
+      <span id="authSwitchTxt">Don't have an account? </span>
+      <span id="toggleAuth" onclick="toggleMode()">Sign up</span>
+    </p>
+  </div>
+</div>
+
+<!-- Confirm Delete Modal -->
+<div class="confirm-overlay" id="confirmOverlay">
+  <div class="confirm-box">
+    <h3>⚠ DELETE USER?</h3>
+    <p>This will permanently remove <strong id="confirmName"></strong> from the system. This cannot be undone.</p>
+    <div class="confirm-actions">
+      <button class="btn-cancel" onclick="closeConfirm()">Cancel</button>
+      <button class="btn-confirm-del" onclick="doDelete()">CONFIRM DELETE</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+
+<script>
+/* ─── DATA ──────────────────────────────────────── */
+const ACCOUNTS = [
+  { email:'admin@neonex.io', pass:'admin123', role:'Admin', name:'Admin Prime' },
+  { email:'user@neonex.io',  pass:'user1234', role:'Viewer', name:'Alex Nova' },
+];
+
+let users = [
+  { id:1, name:'Ana Reyes',      email:'ana@neonex.io',    role:'Admin',  status:'Active',   joined:'Jan 2026' },
+  { id:2, name:'Juan dela Cruz', email:'juan@neonex.io',   role:'Editor', status:'Active',   joined:'Feb 2026' },
+  { id:3, name:'Maria Santos',   email:'maria@neonex.io',  role:'Viewer', status:'Active',   joined:'Mar 2026' },
+  { id:4, name:'Pedro Lim',      email:'pedro@neonex.io',  role:'Editor', status:'Inactive', joined:'Apr 2026' },
+  { id:5, name:'Rosa Garcia',    email:'rosa@neonex.io',   role:'Viewer', status:'Active',   joined:'May 2026' },
+  { id:6, name:'Carlos Tan',     email:'carlos@neonex.io', role:'Admin',  status:'Active',   joined:'Jun 2026' },
+];
+
+let sessionAdded = [];
+let pendingDelId = null;
+let isSignup = false;
+let currentUser = null;
+
+const roleStyle = {
+  Admin:  { bg:'rgba(0,245,255,0.1)',   color:'#00f5ff' },
+  Editor: { bg:'rgba(124,58,237,0.1)',  color:'#a78bfa' },
+  Viewer: { bg:'rgba(255,0,170,0.1)',   color:'#ff55cc' },
+};
+
+const avatarColors = [
+  ['#000','linear-gradient(135deg,#00f5ff,#0088aa)'],
+  ['#fff','linear-gradient(135deg,#7c3aed,#ff00aa)'],
+  ['#000','linear-gradient(135deg,#00ff88,#005533)'],
+  ['#000','linear-gradient(135deg,#ffd600,#aa8800)'],
+  ['#fff','linear-gradient(135deg,#ff4466,#660022)'],
+  ['#fff','linear-gradient(135deg,#7c3aed,#00f5ff)'],
+];
+
+/* ─── VIEWS ─────────────────────────────────────── */
+function showView(id) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+/* ─── AUTH ──────────────────────────────────────── */
+function openAuth() {
+  document.getElementById('authOverlay').classList.add('open');
+}
+
+function closeAuth() {
+  document.getElementById('authOverlay').classList.remove('open');
+  document.getElementById('authError').classList.remove('show');
+}
+
+function toggleMode() {
+  isSignup = !isSignup;
+  document.getElementById('authTitle').textContent  = isSignup ? 'SIGN UP' : 'LOGIN';
+  document.getElementById('authSub').textContent     = isSignup ? '// Create your NEONEX identity' : '// Access your NEONEX account';
+  document.getElementById('authBtnTxt').textContent  = isSignup ? 'CREATE ACCOUNT' : 'ACCESS SYSTEM';
+  document.getElementById('toggleAuth').textContent  = isSignup ? 'Login' : 'Sign up';
+  document.getElementById('authSwitchTxt').textContent = isSignup ? 'Already have an account? ' : "Don't have an account? ";
+  document.getElementById('confirmField').style.display = isSignup ? 'block' : 'none';
+  document.getElementById('roleField').style.display    = isSignup ? 'block' : 'none';
+  document.getElementById('demoHint').style.display     = isSignup ? 'none'  : 'block';
+  document.getElementById('authError').classList.remove('show');
+}
+
+function handleAuth() {
+  const email = document.getElementById('loginEmail').value.trim();
+  const pass  = document.getElementById('loginPass').value;
+  const err   = document.getElementById('authError');
+  err.classList.remove('show');
+
+  if (isSignup) {
+    const confirm = document.getElementById('loginConfirm').value;
+    const role    = document.getElementById('signupRole').value;
+    if (!email || !pass) { err.textContent='Fill all fields.'; err.classList.add('show'); return; }
+    if (pass !== confirm) { err.textContent='Passwords do not match.'; err.classList.add('show'); return; }
+    if (pass.length < 6)  { err.textContent='Password too short.'; err.classList.add('show'); return; }
+    const uname = email.split('@')[0];
+    currentUser = { email, role, name: uname };
+    closeAuth();
+    loadUserDash();
+    showView('userView');
+    showToast(`✅ Welcome, ${uname}!`,'ok');
+    return;
+  }
+
+  const acct = ACCOUNTS.find(a => a.email === email && a.pass === pass);
+  if (!acct) { err.textContent='Invalid email or password.'; err.classList.add('show'); return; }
+  currentUser = acct;
+  closeAuth();
+
+  if (acct.role === 'Admin') {
+    loadAdminDash();
+    showView('adminView');
+    showToast(`✅ Logged in as Admin`,'ok');
+  } else {
+    loadUserDash();
+    showView('userView');
+    showToast(`✅ Welcome back, ${acct.name}!`,'ok');
+  }
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Enter' && document.getElementById('authOverlay').classList.contains('open')) handleAuth();
+  if (e.key === 'Escape') closeAuth();
+});
+
+function logout() {
+  currentUser = null;
+  showView('landing');
+  // Reset admin tabs
+  adminTab('overview', document.querySelector('#adminView .sb-item'));
+  userTab('home', document.querySelector('#userView .sb-item'));
+  showToast('👋 Logged out','ok');
+}
+
+/* ─── ADMIN ─────────────────────────────────────── */
+function loadAdminDash() {
+  const date = new Date().toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric',year:'numeric'});
+  document.getElementById('adminDate').textContent = date;
+  document.getElementById('adminSbName').textContent = currentUser.name || 'Admin';
+  updateAdminStats();
+  renderUserTable();
+}
+
+function updateAdminStats() {
+  const all = [...users, ...sessionAdded];
+  document.getElementById('statTotal').textContent  = all.length;
+  document.getElementById('statAdmins').textContent = all.filter(u=>u.role==='Admin').length;
+  document.getElementById('statActive').textContent = all.filter(u=>u.status==='Active').length;
+}
+
+function adminTab(name, el) {
+  document.querySelectorAll('#adminView .tab-content').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  document.querySelectorAll('#adminView .sb-item').forEach(i => i.classList.remove('active'));
+  if (el) el.classList.add('active');
+}
+
+/* ─── USER TABLE ─────────────────────────────────── */
+function getInitials(name) {
+  return name.split(' ').map(p=>p[0]).join('').toUpperCase().slice(0,2);
+}
+
+function renderUserTable() {
+  const q    = (document.getElementById('userSearch')?.value||'').toLowerCase();
+  const rf   = document.getElementById('roleFilter')?.value || '';
+  const all  = [...users, ...sessionAdded];
+  const list = all.filter(u =>
+    (!q  || u.name.toLowerCase().includes(q) || u.email.toLowerCase().includes(q)) &&
+    (!rf || u.role === rf)
+  );
+
+  document.getElementById('userCount').textContent = `${list.length} users`;
+  const tbody = document.getElementById('userTableBody');
+  const empty = document.getElementById('userEmpty');
+
+  if (!list.length) { tbody.innerHTML=''; empty.style.display='block'; return; }
+  empty.style.display='none';
+
+  tbody.innerHTML = list.map((u,i) => {
+    const [fc, bg] = avatarColors[i % avatarColors.length];
+    const rs = roleStyle[u.role] || roleStyle.Viewer;
+    const isActive = u.status === 'Active';
+    return `
+      <tr id="urow-${u.id}">
+        <td class="td-mono">#${String(u.id).padStart(3,'0')}</td>
+        <td>
+          <div class="user-cell">
+            <div class="u-avatar" style="background:${bg};color:${fc}">${getInitials(u.name)}</div>
+            <div>
+              <div class="u-name">${u.name}</div>
+              <div class="u-email">${u.email}</div>
+            </div>
+          </div>
+        </td>
+        <td><span class="rbadge" style="background:${rs.bg};color:${rs.color}">${u.role}</span></td>
+        <td><span class="status-dot"><span class="dot" style="background:${isActive?'var(--green)':'var(--muted)'}"></span>${u.status}</span></td>
+        <td class="td-mono">${u.joined}</td>
+        <td>
+          <button class="btn-edit" onclick="showToast('Edit is a demo feature','ok')">✏ Edit</button>
+          <button class="btn-del"  onclick="openConfirm(${u.id},'${u.name}')">🗑 Delete</button>
+        </td>
+      </tr>`;
+  }).join('');
+}
+
+/* ─── DELETE ─────────────────────────────────────── */
+function openConfirm(id, name) {
+  pendingDelId = id;
+  document.getElementById('confirmName').textContent = name;
+  document.getElementById('confirmOverlay').classList.add('open');
+}
+function closeConfirm() {
+  document.getElementById('confirmOverlay').classList.remove('open');
+  pendingDelId = null;
+}
+function doDelete() {
+  const u = [...users,...sessionAdded].find(u=>u.id===pendingDelId);
+  users = users.filter(u=>u.id!==pendingDelId);
+  sessionAdded = sessionAdded.filter(u=>u.id!==pendingDelId);
+  closeConfirm();
+  renderUserTable();
+  updateAdminStats();
+  showToast(`🗑️ ${u?.name} deleted`,'bad');
+}
+
+/* ─── ADD USER ───────────────────────────────────── */
+function updateAddPreview() {
+  const first = document.getElementById('addFirst').value.trim();
+  const last  = document.getElementById('addLast').value.trim();
+  const email = document.getElementById('addEmail').value.trim();
+  const role  = document.getElementById('addRole').value;
+  const init  = (first||last) ? getInitials((first||'?')+' '+(last||'?')) : '?';
+  document.getElementById('addPreviewAvatar').textContent = init;
+  document.getElementById('addPreviewName').textContent   = [first,last].filter(Boolean).join(' ')||'Full Name';
+  document.getElementById('addPreviewEmail').textContent  = email||'email@neonex.io';
+  const rb = document.getElementById('addPreviewRole');
+  if (role && roleStyle[role]) {
+    rb.textContent = role;
+    rb.style.background = roleStyle[role].bg;
+    rb.style.color      = roleStyle[role].color;
+  } else {
+    rb.textContent = 'No role';
+    rb.style.background = 'rgba(107,114,128,0.1)';
+    rb.style.color = 'var(--muted)';
+  }
+}
+
+function submitAddUser() {
+  const first = document.getElementById('addFirst').value.trim();
+  const last  = document.getElementById('addLast').value.trim();
+  const email = document.getElementById('addEmail').value.trim();
+  const role  = document.getElementById('addRole').value;
+  const pass  = document.getElementById('addPass').value;
+  let ok = true;
+
+  const check = (id, errId, cond) => {
+    const el = document.getElementById(id);
+    const er = document.getElementById(errId);
+    if (!cond) { el.classList.add('err'); er.classList.add('show'); ok=false; }
+    else        { el.classList.remove('err'); er.classList.remove('show'); }
+  };
+  check('addFirst','addFirstErr', first.length>0);
+  check('addLast', 'addLastErr',  last.length>0);
+  check('addEmail','addEmailErr', /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email));
+  check('addRole', 'addRoleErr',  role!=='');
+  check('addPass', 'addPassErr',  pass.length>=8);
+  if (!ok) return;
+
+  const maxId = Math.max(...[...users,...sessionAdded].map(u=>u.id), 0);
+  const nu = {
+    id: maxId+1,
+    name: `${first} ${last}`,
+    email, role,
+    status: document.getElementById('addStatus').value,
+    joined: new Date().toLocaleDateString('en-US',{month:'short',year:'numeric'})
+  };
+  sessionAdded.push(nu);
+  updateAdminStats();
+  renderRecentAdded();
+  showToast(`✅ ${nu.name} added as ${role}`,'ok');
+
+  ['addFirst','addLast','addEmail','addRole','addPass'].forEach(id=>{
+    document.getElementById(id).value='';
+    document.getElementById(id).classList.remove('err');
+  });
+  updateAddPreview();
+}
+
+function renderRecentAdded() {
+  const c = document.getElementById('recentAdded');
+  if (!sessionAdded.length) { c.innerHTML='<div style="padding:12px;font-size:12px;color:var(--muted);font-family:\'Share Tech Mono\',monospace">None this session.</div>'; return; }
+  c.innerHTML = [...sessionAdded].reverse().slice(0,5).map(u=>{
+    const rs = roleStyle[u.role]||roleStyle.Viewer;
+    return `<div style="display:flex;align-items:center;gap:8px;padding:8px 12px;border-bottom:1px solid var(--border);font-size:12px">
+      <span style="color:var(--green)">●</span>
+      <span style="flex:1;font-family:'Share Tech Mono',monospace">${u.name}</span>
+      <span class="rbadge" style="background:${rs.bg};color:${rs.color};font-size:10px">${u.role}</span>
+    </div>`;
+  }).join('');
+}
+
+/* ─── USER DASHBOARD ─────────────────────────────── */
+function loadUserDash() {
+  const date = new Date().toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric',year:'numeric'});
+  document.getElementById('userDate').textContent    = date;
+  document.getElementById('userWelcome').textContent = `Welcome back, ${currentUser.name}.`;
+  document.getElementById('userSbName').textContent  = currentUser.name;
+
+  const initials = getInitials(currentUser.name);
+  document.getElementById('userSbAvatar').textContent     = initials;
+  document.getElementById('userProfileAvLg').textContent  = initials;
+  document.getElementById('userProfileName').textContent  = currentUser.name;
+  document.getElementById('userProfileEmail').textContent = currentUser.email;
+  document.getElementById('userProfileRole').textContent  = currentUser.role||'Viewer';
+  document.getElementById('userJoined').textContent       = 'Joined ' + new Date().getFullYear();
+
+  document.getElementById('profName').value  = currentUser.name;
+  document.getElementById('profEmail').value = currentUser.email;
+}
+
+function userTab(name, el) {
+  document.querySelectorAll('#userView .tab-content').forEach(t=>t.classList.remove('active'));
+  document.getElementById('utab-'+name).classList.add('active');
+  document.querySelectorAll('#userView .sb-item').forEach(i=>i.classList.remove('active'));
+  if (el) el.classList.add('active');
+}
+
+function saveProfile() {
+  const name  = document.getElementById('profName').value.trim();
+  const email = document.getElementById('profEmail').value.trim();
+  if (!name || !email) { showToast('Fill all fields','bad'); return; }
+  currentUser.name  = name;
+  currentUser.email = email;
+  loadUserDash();
+  showToast('✅ Profile saved','ok');
+}
+
+/* ─── TOAST ─────────────────────────────────────── */
+function showToast(msg, type='ok') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = `toast ${type} show`;
+  clearTimeout(t._timeout);
+  t._timeout = setTimeout(()=>t.classList.remove('show'),3000);
+}
+
+/* ─── INIT ───────────────────────────────────────── */
+document.getElementById('adminDate') && (document.getElementById('adminDate').textContent =
+  new Date().toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric',year:'numeric'}));
+</script>
+</body>
 </html>
