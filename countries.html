@@ -1,0 +1,970 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NEONEX | Country Intel</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* ── RESET & BASE ─────────────────────────────────────── */
+      *,
+      *::before,
+      *::after {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      :root {
+        --cyan: #00f7ff;
+        --cyan2: rgba(0, 247, 255, 0.55);
+        --cyan3: rgba(0, 247, 255, 0.12);
+        --red: #ff2d6b;
+        --bg: #030810;
+        --bg2: rgba(5, 16, 32, 0.92);
+        --text: #d8f0ff;
+        --mono: "Share Tech Mono", monospace;
+        --display: "Orbitron", sans-serif;
+      }
+
+      html,
+      body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: var(--mono);
+        min-height: 100vh;
+        overflow-x: hidden;
+      }
+
+      /* ── ANIMATED GRID BACKGROUND ─────────────────────────── */
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background-image:
+          linear-gradient(rgba(0, 247, 255, 0.04) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(0, 247, 255, 0.04) 1px, transparent 1px);
+        background-size: 48px 48px;
+        animation: gridScroll 18s linear infinite;
+        pointer-events: none;
+        z-index: 0;
+      }
+      @keyframes gridScroll {
+        to {
+          background-position: 0 48px;
+        }
+      }
+
+      /* ── SCANLINES ────────────────────────────────────────── */
+      body::after {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background: repeating-linear-gradient(
+          to bottom,
+          rgba(255, 255, 255, 0.018),
+          rgba(255, 255, 255, 0.018) 1px,
+          transparent 2px,
+          transparent 5px
+        );
+        pointer-events: none;
+        z-index: 0;
+      }
+
+      /* ── LAYOUT ───────────────────────────────────────────── */
+      .page-wrap {
+        position: relative;
+        z-index: 1;
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 0 24px 80px;
+      }
+
+      /* ── NAV BAR ──────────────────────────────────────────── */
+      nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 22px 0;
+        border-bottom: 1px solid rgba(0, 247, 255, 0.15);
+        margin-bottom: 60px;
+      }
+      .nav-logo {
+        font-family: var(--display);
+        font-size: 1.1rem;
+        font-weight: 900;
+        letter-spacing: 5px;
+        color: var(--cyan);
+        text-shadow: 0 0 18px var(--cyan);
+        text-decoration: none;
+      }
+      .nav-tag {
+        font-size: 0.7rem;
+        letter-spacing: 3px;
+        opacity: 0.45;
+        text-transform: uppercase;
+      }
+
+      /* ── HERO TITLE ───────────────────────────────────────── */
+      .section-header {
+        text-align: center;
+        margin-bottom: 48px;
+      }
+      .section-header .label {
+        display: inline-block;
+        font-size: 0.65rem;
+        letter-spacing: 4px;
+        color: var(--cyan);
+        opacity: 0.7;
+        margin-bottom: 12px;
+        text-transform: uppercase;
+      }
+      .section-header h1 {
+        font-family: var(--display);
+        font-size: clamp(2rem, 5vw, 3.6rem);
+        font-weight: 900;
+        letter-spacing: 6px;
+        text-transform: uppercase;
+        text-shadow: 0 0 22px rgba(0, 247, 255, 0.5);
+        line-height: 1.1;
+      }
+      .section-header h1 span {
+        color: var(--cyan);
+      }
+      .section-header p {
+        margin-top: 14px;
+        font-size: 0.85rem;
+        opacity: 0.5;
+        letter-spacing: 1px;
+      }
+
+      /* ── SEARCH BAR ───────────────────────────────────────── */
+      .search-zone {
+        display: flex;
+        gap: 12px;
+        margin-bottom: 48px;
+        flex-wrap: wrap;
+      }
+      .search-wrap {
+        flex: 1 1 300px;
+        position: relative;
+      }
+      .search-wrap::before {
+        content: "⌕";
+        position: absolute;
+        left: 16px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 1.2rem;
+        color: var(--cyan);
+        opacity: 0.6;
+        pointer-events: none;
+      }
+      #searchInput {
+        width: 100%;
+        padding: 15px 15px 15px 44px;
+        background: rgba(0, 247, 255, 0.055);
+        border: 1px solid rgba(0, 247, 255, 0.35);
+        border-radius: 10px;
+        color: var(--text);
+        font-family: var(--mono);
+        font-size: 0.9rem;
+        letter-spacing: 1px;
+        outline: none;
+        transition:
+          border-color 0.25s,
+          box-shadow 0.25s;
+      }
+      #searchInput::placeholder {
+        color: rgba(255, 255, 255, 0.28);
+      }
+      #searchInput:focus {
+        border-color: var(--cyan);
+        box-shadow: 0 0 18px rgba(0, 247, 255, 0.3);
+      }
+
+      #searchBtn {
+        padding: 15px 32px;
+        background: transparent;
+        border: 1px solid var(--cyan);
+        color: var(--cyan);
+        font-family: var(--display);
+        font-size: 0.72rem;
+        font-weight: 700;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: all 0.3s;
+        white-space: nowrap;
+      }
+      #searchBtn:hover {
+        background: rgba(0, 247, 255, 0.12);
+        box-shadow: 0 0 24px rgba(0, 247, 255, 0.55);
+      }
+      #searchBtn:active {
+        transform: scale(0.97);
+      }
+
+      /* ── FILTER ROW ───────────────────────────────────────── */
+      .filter-row {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-bottom: 36px;
+      }
+      .filter-btn {
+        padding: 8px 18px;
+        background: transparent;
+        border: 1px solid rgba(0, 247, 255, 0.25);
+        color: rgba(255, 255, 255, 0.45);
+        font-family: var(--mono);
+        font-size: 0.72rem;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: all 0.25s;
+      }
+      .filter-btn:hover,
+      .filter-btn.active {
+        border-color: var(--cyan);
+        color: var(--cyan);
+        background: var(--cyan3);
+        box-shadow: 0 0 12px rgba(0, 247, 255, 0.2);
+      }
+
+      /* ── STATUS LINE ──────────────────────────────────────── */
+      #statusLine {
+        font-size: 0.72rem;
+        letter-spacing: 2px;
+        opacity: 0.5;
+        margin-bottom: 28px;
+        min-height: 18px;
+        text-transform: uppercase;
+      }
+      #statusLine.error {
+        color: var(--red);
+        opacity: 1;
+      }
+
+      /* ── LOADER ───────────────────────────────────────────── */
+      #loader {
+        display: none;
+        text-align: center;
+        padding: 60px 0;
+      }
+      .loader-ring {
+        width: 56px;
+        height: 56px;
+        border: 2px solid rgba(0, 247, 255, 0.15);
+        border-top-color: var(--cyan);
+        border-radius: 50%;
+        animation: spin 0.8s linear infinite;
+        margin: 0 auto 16px;
+      }
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+      #loader p {
+        font-size: 0.7rem;
+        letter-spacing: 3px;
+        color: var(--cyan);
+        opacity: 0.6;
+        text-transform: uppercase;
+      }
+
+      /* ── CARDS GRID ───────────────────────────────────────── */
+      #resultsGrid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 20px;
+      }
+
+      /* ── COUNTRY CARD ─────────────────────────────────────── */
+      .country-card {
+        background: var(--bg2);
+        border: 1px solid rgba(0, 247, 255, 0.14);
+        border-radius: 14px;
+        overflow: hidden;
+        cursor: pointer;
+        transition:
+          transform 0.25s,
+          border-color 0.25s,
+          box-shadow 0.25s;
+        animation: fadeUp 0.4s ease both;
+      }
+      .country-card:hover {
+        transform: translateY(-4px);
+        border-color: rgba(0, 247, 255, 0.5);
+        box-shadow: 0 8px 36px rgba(0, 247, 255, 0.18);
+      }
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(18px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .card-flag {
+        width: 100%;
+        height: 160px;
+        object-fit: cover;
+        display: block;
+        border-bottom: 1px solid rgba(0, 247, 255, 0.12);
+      }
+      .card-body {
+        padding: 20px;
+      }
+      .card-name {
+        font-family: var(--display);
+        font-size: 0.95rem;
+        font-weight: 700;
+        letter-spacing: 2px;
+        margin-bottom: 14px;
+        color: white;
+        text-shadow: 0 0 10px rgba(0, 247, 255, 0.3);
+      }
+      .card-row {
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.72rem;
+        letter-spacing: 1px;
+        margin-bottom: 7px;
+        opacity: 0.75;
+      }
+      .card-row .key {
+        color: var(--cyan);
+        opacity: 0.7;
+      }
+      .card-row .val {
+        text-align: right;
+      }
+
+      .card-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-top: 14px;
+      }
+      .tag {
+        padding: 4px 10px;
+        background: rgba(0, 247, 255, 0.08);
+        border: 1px solid rgba(0, 247, 255, 0.2);
+        border-radius: 4px;
+        font-size: 0.62rem;
+        letter-spacing: 1.5px;
+        color: var(--cyan);
+        text-transform: uppercase;
+      }
+
+      /* ── DETAIL MODAL ─────────────────────────────────────── */
+      .modal-bg {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.75);
+        backdrop-filter: blur(8px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s;
+        z-index: 500;
+      }
+      .modal-bg.open {
+        opacity: 1;
+        pointer-events: all;
+      }
+
+      .modal {
+        background: linear-gradient(135deg, #040f1e, #071525);
+        border: 1px solid rgba(0, 247, 255, 0.3);
+        border-radius: 18px;
+        width: 100%;
+        max-width: 680px;
+        max-height: 90vh;
+        overflow-y: auto;
+        padding: 36px;
+        box-shadow: 0 0 60px rgba(0, 247, 255, 0.2);
+        position: relative;
+        transform: scale(0.95);
+        transition: transform 0.3s;
+        scrollbar-width: thin;
+        scrollbar-color: var(--cyan2) transparent;
+      }
+      .modal-bg.open .modal {
+        transform: scale(1);
+      }
+
+      .modal-close {
+        position: absolute;
+        top: 18px;
+        right: 18px;
+        background: none;
+        border: 1px solid rgba(0, 247, 255, 0.3);
+        color: var(--cyan);
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: all 0.2s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .modal-close:hover {
+        background: rgba(0, 247, 255, 0.15);
+        box-shadow: 0 0 14px rgba(0, 247, 255, 0.4);
+      }
+
+      .modal-flag {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        border-radius: 10px;
+        margin-bottom: 24px;
+        border: 1px solid rgba(0, 247, 255, 0.15);
+      }
+      .modal-title {
+        font-family: var(--display);
+        font-size: 1.5rem;
+        font-weight: 900;
+        letter-spacing: 4px;
+        text-transform: uppercase;
+        text-shadow: 0 0 20px rgba(0, 247, 255, 0.5);
+        margin-bottom: 6px;
+      }
+      .modal-native {
+        font-size: 0.78rem;
+        opacity: 0.45;
+        letter-spacing: 2px;
+        margin-bottom: 28px;
+      }
+
+      .modal-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+        margin-bottom: 24px;
+      }
+      @media (max-width: 500px) {
+        .modal-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .modal-stat {
+        background: rgba(0, 247, 255, 0.05);
+        border: 1px solid rgba(0, 247, 255, 0.12);
+        border-radius: 10px;
+        padding: 14px 16px;
+      }
+      .modal-stat .s-label {
+        font-size: 0.62rem;
+        letter-spacing: 3px;
+        color: var(--cyan);
+        opacity: 0.65;
+        text-transform: uppercase;
+        margin-bottom: 5px;
+      }
+      .modal-stat .s-value {
+        font-size: 0.92rem;
+        letter-spacing: 1px;
+      }
+
+      .modal-section-title {
+        font-family: var(--display);
+        font-size: 0.68rem;
+        letter-spacing: 3px;
+        color: var(--cyan);
+        opacity: 0.6;
+        text-transform: uppercase;
+        margin: 20px 0 10px;
+      }
+      .lang-pills {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .lang-pill {
+        padding: 6px 14px;
+        background: rgba(0, 247, 255, 0.07);
+        border: 1px solid rgba(0, 247, 255, 0.2);
+        border-radius: 6px;
+        font-size: 0.72rem;
+        letter-spacing: 1.5px;
+        color: var(--text);
+      }
+      .border-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .border-tag {
+        padding: 5px 12px;
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 6px;
+        font-size: 0.68rem;
+        letter-spacing: 2px;
+      }
+
+      /* ── EMPTY / ERROR STATE ──────────────────────────────── */
+      .empty-state {
+        text-align: center;
+        padding: 80px 20px;
+        opacity: 0.3;
+      }
+      .empty-state .icon {
+        font-size: 3rem;
+        margin-bottom: 16px;
+      }
+      .empty-state p {
+        font-family: var(--display);
+        font-size: 0.8rem;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+      }
+
+      /* ── FOOTER ───────────────────────────────────────────── */
+      footer {
+        position: relative;
+        z-index: 1;
+        text-align: center;
+        padding: 32px;
+        font-size: 0.65rem;
+        letter-spacing: 3px;
+        opacity: 0.25;
+        text-transform: uppercase;
+        border-top: 1px solid rgba(0, 247, 255, 0.08);
+      }
+
+      /* ── SCROLLBAR ────────────────────────────────────────── */
+      ::-webkit-scrollbar {
+        width: 6px;
+      }
+      ::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: rgba(0, 247, 255, 0.25);
+        border-radius: 3px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page-wrap">
+      <!-- NAV -->
+      <nav>
+        <a href="index.html" class="nav-logo">NEONEX</a>
+        <span class="nav-tag">// Country Intel Module</span>
+      </nav>
+
+      <!-- HEADER -->
+      <div class="section-header">
+        <span class="label">// API Integration · Activity 3</span>
+        <h1>Country <span>Intel</span></h1>
+        <p>
+          Search any nation — retrieve live data from the REST Countries API
+        </p>
+      </div>
+
+      <!-- SEARCH -->
+      <div class="search-zone">
+        <div class="search-wrap">
+          <input
+            type="text"
+            id="searchInput"
+            placeholder="Enter country name (e.g. Philippines, Japan, Brazil…)"
+            autocomplete="off"
+          />
+        </div>
+        <button id="searchBtn">Scan</button>
+      </div>
+
+      <!-- REGION FILTERS -->
+      <div class="filter-row" id="filterRow">
+        <button class="filter-btn active" data-region="">All</button>
+        <button class="filter-btn" data-region="Africa">Africa</button>
+        <button class="filter-btn" data-region="Americas">Americas</button>
+        <button class="filter-btn" data-region="Asia">Asia</button>
+        <button class="filter-btn" data-region="Europe">Europe</button>
+        <button class="filter-btn" data-region="Oceania">Oceania</button>
+      </div>
+
+      <!-- STATUS -->
+      <div id="statusLine"></div>
+
+      <!-- LOADER -->
+      <div id="loader">
+        <div class="loader-ring"></div>
+        <p>Fetching intel…</p>
+      </div>
+
+      <!-- RESULTS -->
+      <div id="resultsGrid"></div>
+    </div>
+    <!-- /page-wrap -->
+
+    <!-- DETAIL MODAL -->
+    <div class="modal-bg" id="modalBg">
+      <div class="modal" id="modalBox">
+        <button class="modal-close" id="modalClose">✕</button>
+        <div id="modalContent"></div>
+      </div>
+    </div>
+
+    <footer>© 2026 NEONEX — Activity 3 · REST Countries API</footer>
+
+    <script>
+      /* ─────────────────────────────────────────────────────────
+         NEONEX Country Intel — Activity 3
+         API: https://restcountries.com  (free, no key required)
+      ──────────────────────────────────────────────────────────*/
+
+      const BASE = "https://restcountries.com/v3.1";
+
+      // DOM refs
+      const searchInput = document.getElementById("searchInput");
+      const searchBtn = document.getElementById("searchBtn");
+      const filterRow = document.getElementById("filterRow");
+      const statusLine = document.getElementById("statusLine");
+      const loader = document.getElementById("loader");
+      const resultsGrid = document.getElementById("resultsGrid");
+      const modalBg = document.getElementById("modalBg");
+      const modalClose = document.getElementById("modalClose");
+      const modalContent = document.getElementById("modalContent");
+
+      // Fields we need — keep response lean
+      const FIELDS =
+        "fields=name,flags,capital,population,region,subregion,area,languages,currencies,borders,timezones,continents,tld";
+
+      let currentRegion = "";
+      let allResults = []; // store last fetch for re-filtering
+
+      /* ── FETCH HELPERS ──────────────────────────────────── */
+
+      /**
+       * Fetch countries by name.
+       * Uses /name/{query} endpoint.
+       */
+      async function fetchByName(query) {
+        const url = `${BASE}/name/${encodeURIComponent(query)}?${FIELDS}`;
+        const res = await fetch(url);
+        if (!res.ok) {
+          if (res.status === 404) throw new Error("NO_RESULTS");
+          throw new Error("FETCH_ERROR");
+        }
+        return res.json();
+      }
+
+      /**
+       * Fetch all countries — used when no name but a region filter is active.
+       * Uses /region/{region} endpoint.
+       */
+      async function fetchByRegion(region) {
+        const url = `${BASE}/region/${encodeURIComponent(region)}?${FIELDS}`;
+        const res = await fetch(url);
+        if (!res.ok) throw new Error("FETCH_ERROR");
+        return res.json();
+      }
+
+      /**
+       * Fetch all countries — used for "All" with no name query.
+       */
+      async function fetchAll() {
+        const url = `${BASE}/all?${FIELDS}`;
+        const res = await fetch(url);
+        if (!res.ok) throw new Error("FETCH_ERROR");
+        return res.json();
+      }
+
+      /* ── DISPLAY HELPERS ────────────────────────────────── */
+
+      function setStatus(msg, isError = false) {
+        statusLine.textContent = msg;
+        statusLine.className = isError ? "error" : "";
+      }
+
+      function showLoader(visible) {
+        loader.style.display = visible ? "block" : "none";
+      }
+
+      /** Format large numbers with commas */
+      function fmt(n) {
+        return n ? n.toLocaleString() : "—";
+      }
+
+      /** Extract first capital from array or return "—" */
+      function capital(c) {
+        return Array.isArray(c) && c.length ? c[0] : "—";
+      }
+
+      /** Extract currency string from currencies object */
+      function currencies(obj) {
+        if (!obj) return "—";
+        return Object.values(obj)
+          .map((c) => `${c.name} (${c.symbol || "?"})`)
+          .join(", ");
+      }
+
+      /** Extract languages from object */
+      function languages(obj) {
+        if (!obj) return [];
+        return Object.values(obj);
+      }
+
+      /* ── RENDER CARDS ───────────────────────────────────── */
+
+      function renderCards(countries) {
+        resultsGrid.innerHTML = "";
+
+        if (!countries.length) {
+          resultsGrid.innerHTML = `
+            <div class="empty-state" style="grid-column:1/-1">
+              <div class="icon">◈</div>
+              <p>No matches found</p>
+            </div>`;
+          return;
+        }
+
+        // Sort alphabetically
+        countries.sort((a, b) => a.name.common.localeCompare(b.name.common));
+
+        countries.forEach((c, i) => {
+          const card = document.createElement("div");
+          card.className = "country-card";
+          card.style.animationDelay = `${i * 40}ms`;
+
+          card.innerHTML = `
+            <img class="card-flag"
+                 src="${c.flags?.svg || c.flags?.png || ""}"
+                 alt="Flag of ${c.name.common}"
+                 loading="lazy" />
+            <div class="card-body">
+              <div class="card-name">${c.name.common}</div>
+              <div class="card-row">
+                <span class="key">Capital</span>
+                <span class="val">${capital(c.capital)}</span>
+              </div>
+              <div class="card-row">
+                <span class="key">Region</span>
+                <span class="val">${c.region || "—"}</span>
+              </div>
+              <div class="card-row">
+                <span class="key">Population</span>
+                <span class="val">${fmt(c.population)}</span>
+              </div>
+              <div class="card-row">
+                <span class="key">Area</span>
+                <span class="val">${c.area ? fmt(c.area) + " km²" : "—"}</span>
+              </div>
+              <div class="card-tags">
+                ${c.continents?.map((t) => `<span class="tag">${t}</span>`).join("") || ""}
+              </div>
+            </div>`;
+
+          // Click → open detail modal
+          card.addEventListener("click", () => openModal(c));
+          resultsGrid.appendChild(card);
+        });
+      }
+
+      /* ── DETAIL MODAL ───────────────────────────────────── */
+
+      function openModal(c) {
+        const langs = languages(c.languages);
+        const borders = c.borders || [];
+
+        modalContent.innerHTML = `
+          <img class="modal-flag"
+               src="${c.flags?.svg || c.flags?.png || ""}"
+               alt="Flag of ${c.name.common}" />
+          <div class="modal-title">${c.name.common}</div>
+          <div class="modal-native">${c.name.official}</div>
+
+          <div class="modal-grid">
+            <div class="modal-stat">
+              <div class="s-label">Capital</div>
+              <div class="s-value">${capital(c.capital)}</div>
+            </div>
+            <div class="modal-stat">
+              <div class="s-label">Region</div>
+              <div class="s-value">${c.region || "—"} / ${c.subregion || "—"}</div>
+            </div>
+            <div class="modal-stat">
+              <div class="s-label">Population</div>
+              <div class="s-value">${fmt(c.population)}</div>
+            </div>
+            <div class="modal-stat">
+              <div class="s-label">Area</div>
+              <div class="s-value">${c.area ? fmt(c.area) + " km²" : "—"}</div>
+            </div>
+            <div class="modal-stat">
+              <div class="s-label">Currency</div>
+              <div class="s-value">${currencies(c.currencies)}</div>
+            </div>
+            <div class="modal-stat">
+              <div class="s-label">Top-Level Domain</div>
+              <div class="s-value">${c.tld?.join(", ") || "—"}</div>
+            </div>
+            <div class="modal-stat">
+              <div class="s-label">Timezones</div>
+              <div class="s-value">${c.timezones?.slice(0, 3).join(", ") || "—"}${c.timezones?.length > 3 ? " …" : ""}</div>
+            </div>
+            <div class="modal-stat">
+              <div class="s-label">Continent</div>
+              <div class="s-value">${c.continents?.join(", ") || "—"}</div>
+            </div>
+          </div>
+
+          ${
+            langs.length
+              ? `
+            <div class="modal-section-title">Languages</div>
+            <div class="lang-pills">
+              ${langs.map((l) => `<span class="lang-pill">${l}</span>`).join("")}
+            </div>`
+              : ""
+          }
+
+          ${
+            borders.length
+              ? `
+            <div class="modal-section-title">Bordering Countries (${borders.length})</div>
+            <div class="border-list">
+              ${borders.map((b) => `<span class="border-tag">${b}</span>`).join("")}
+            </div>`
+              : ""
+          }
+        `;
+
+        modalBg.classList.add("open");
+        document.body.style.overflow = "hidden";
+      }
+
+      function closeModal() {
+        modalBg.classList.remove("open");
+        document.body.style.overflow = "";
+      }
+
+      modalClose.addEventListener("click", closeModal);
+      modalBg.addEventListener("click", (e) => {
+        if (e.target === modalBg) closeModal();
+      });
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") closeModal();
+      });
+
+      /* ── MAIN SEARCH HANDLER ────────────────────────────── */
+
+      async function doSearch() {
+        const query = searchInput.value.trim();
+
+        // Need either a name or a region to search
+        if (!query && !currentRegion) {
+          setStatus("Enter a country name or select a region to begin.", true);
+          return;
+        }
+
+        showLoader(true);
+        resultsGrid.innerHTML = "";
+        setStatus("");
+
+        try {
+          let data;
+
+          if (query) {
+            // Name search — then optionally filter by active region
+            data = await fetchByName(query);
+            if (currentRegion) {
+              data = data.filter(
+                (c) => c.region.toLowerCase() === currentRegion.toLowerCase(),
+              );
+            }
+          } else if (currentRegion) {
+            // Region only
+            data = await fetchByRegion(currentRegion);
+          } else {
+            data = await fetchAll();
+          }
+
+          allResults = data;
+          setStatus(
+            `${data.length} result${data.length !== 1 ? "s" : ""} found`,
+          );
+          renderCards(data);
+        } catch (err) {
+          allResults = [];
+          if (err.message === "NO_RESULTS") {
+            setStatus("No countries matched your search.", true);
+            resultsGrid.innerHTML = `
+              <div class="empty-state" style="grid-column:1/-1">
+                <div class="icon">◈</div>
+                <p>No data found</p>
+              </div>`;
+          } else {
+            setStatus(
+              "Connection error — check your network and try again.",
+              true,
+            );
+            resultsGrid.innerHTML = `
+              <div class="empty-state" style="grid-column:1/-1">
+                <div class="icon">⚠</div>
+                <p>API request failed</p>
+              </div>`;
+          }
+        } finally {
+          showLoader(false);
+        }
+      }
+
+      /* ── REGION FILTER BUTTONS ──────────────────────────── */
+
+      filterRow.addEventListener("click", (e) => {
+        const btn = e.target.closest(".filter-btn");
+        if (!btn) return;
+
+        // Update active state
+        document
+          .querySelectorAll(".filter-btn")
+          .forEach((b) => b.classList.remove("active"));
+        btn.classList.add("active");
+
+        currentRegion = btn.dataset.region;
+
+        // If there's already a query or a region is selected, re-run
+        if (searchInput.value.trim() || currentRegion) doSearch();
+      });
+
+      /* ── SEARCH TRIGGERS ────────────────────────────────── */
+
+      searchBtn.addEventListener("click", doSearch);
+
+      searchInput.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") doSearch();
+      });
+
+      /* ── INITIAL LOAD — show all Asian countries by default ─ */
+      (function init() {
+        // Pre-select Asia as a nice default on load
+        currentRegion = "Asia";
+        document.querySelector('[data-region="Asia"]').classList.add("active");
+        document.querySelector('[data-region=""]').classList.remove("active");
+        doSearch();
+      })();
+    </script>
+  </body>
+</html>
