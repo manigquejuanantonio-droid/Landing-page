@@ -9,6 +9,7 @@ This project demonstrates interactive UI design, animations, modal authenticatio
 
 ```
 neonex.html       ← Entire application in one file (landing + auth + dashboards)
+countries.html    ← Country Intel page with REST Countries API integration
 README.md         ← Project documentation
 ```
 
@@ -211,9 +212,55 @@ This activity taught me how to architect a multi-view single-page application wi
 
 ---
 
+## 📌 ACTIVITY 5 – Country Intel: Public API Integration – March 16, 2026
+
+### 🔹 Activity Name
+Country Intel — Public API Integration
+
+### 🔹 Description
+This activity extends the NEONEX project by adding a new standalone page called **Country Intel** (`countries.html`). The page allows users to search for any country by name or browse by world region, retrieving live data from the **REST Countries API**. It demonstrates how front-end applications communicate with external services using `fetch()`, process JSON responses, and display dynamic content in a structured, styled interface.
+
+The page is fully compatible with GitHub Pages — no API key, no backend, and no private configuration required.
+
+### 🔹 Technologies Used
+- HTML5
+- CSS3
+- JavaScript (Fetch API, AbortController)
+
+### 🔹 API Used
+**REST Countries API** — `https://restcountries.com/v3.1`
+- Free and public
+- No API key required
+- CORS-enabled for browser use
+- Safe for GitHub Pages deployment
+
+### 🔹 Features
+- Country search by name with live API results
+- Region filter buttons — Africa, Americas, Asia, Europe, Oceania
+- Animated cards displaying flag, capital, region, population, and area
+- Clickable detail modal with full country data:
+  - Official name, currencies, languages, timezones
+  - Bordering countries and top-level domain
+- Fetch timeout using `AbortController` to prevent silent failures
+- Three distinct error states: no results found, request timeout, and network failure
+- No auto-load on startup — page waits for user input to avoid heavy `/all` endpoint calls that caused GitHub Pages failures
+
+### 🔹 Debugging Notes
+During deployment, the page initially failed to display on GitHub Pages despite working locally. The root cause was an auto-load call to the `/all` endpoint on startup, which fetches all ~250 countries (~1MB of data) and frequently times out under real network conditions. The fix was to remove the auto-load, add an `AbortController`-based timeout to every `fetch()` call, and show a prompt on startup instead of firing a request automatically.
+
+### 🔹 AI Assistance Disclosure
+**Did you use AI tools?** Yes
+
+I used Claude (Anthropic) to assist with building the API integration logic, designing the country card and modal layout, implementing fetch timeout handling with `AbortController`, and debugging the GitHub Pages deployment failure. All generated code was reviewed, understood, and tested by me before inclusion in the project.
+
+### 🔹 Learning Reflection
+Through this activity, I learned how to use the Fetch API to send HTTP requests, handle JSON responses, and present dynamic data in a well-structured UI. I also learned how important proper error handling and timeout management are when relying on external APIs — especially for public deployments. The most valuable lesson was understanding the difference between local and deployed environments: what works fine on localhost can silently fail on GitHub Pages when an API response is too large or too slow.
+
+---
+
 ## 🧠 Overall Project Growth
 
-The NEONEX project has evolved across four activities from a visually focused landing page into a structured, role-aware front-end UI simulation:
+The NEONEX project has evolved across five activities from a visually focused landing page into a multi-page, API-integrated front-end application:
 
 | Activity | Focus |
 |---|---|
@@ -221,6 +268,7 @@ The NEONEX project has evolved across four activities from a visually focused la
 | 2 | Modal auth system with client-side validation |
 | 3 | Multi-page navigation and theme persistence |
 | 4 | Role-based dashboards in a single-file architecture |
+| 5 | Public API integration with live data and error handling |
 
 **Cumulative capabilities demonstrated:**
 - Interactive animation systems
@@ -230,6 +278,9 @@ The NEONEX project has evolved across four activities from a visually focused la
 - Admin CRUD interface
 - Multi-view single-page architecture
 - User preference persistence
+- Public API integration using `fetch()`
+- JSON response processing and dynamic rendering
+- Fetch timeout and error handling for production deployments
 - Clean and scalable front-end design
 
 ---
