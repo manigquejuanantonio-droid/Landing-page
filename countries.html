@@ -483,6 +483,125 @@
       ::-webkit-scrollbar { width: 6px; }
       ::-webkit-scrollbar-track { background: transparent; }
       ::-webkit-scrollbar-thumb { background: rgba(0,247,255,.25); border-radius: 3px; }
+
+      /* ── SAVE BUTTON ──────────────────────────────────────── */
+      .card-footer {
+        display: flex;
+        justify-content: flex-end;
+        padding: 10px 20px 16px;
+        border-top: 1px solid rgba(0,247,255,.08);
+      }
+      .save-btn {
+        padding: 7px 18px;
+        background: transparent;
+        border: 1px solid rgba(0,247,255,.4);
+        color: var(--cyan);
+        font-family: var(--mono);
+        font-size: .65rem;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: all .25s;
+      }
+      .save-btn:hover {
+        background: rgba(0,247,255,.12);
+        box-shadow: 0 0 14px rgba(0,247,255,.35);
+      }
+      .save-btn.saved {
+        border-color: #00ff88;
+        color: #00ff88;
+        cursor: default;
+        box-shadow: 0 0 10px rgba(0,255,136,.25);
+      }
+      .save-btn.saved:hover { background: transparent; box-shadow: 0 0 10px rgba(0,255,136,.25); }
+
+      /* Modal save button */
+      .modal-save-btn {
+        display: block;
+        width: 100%;
+        margin-top: 24px;
+        padding: 14px;
+        background: rgba(0,247,255,.08);
+        border: 1px solid rgba(0,247,255,.5);
+        color: var(--cyan);
+        font-family: var(--display);
+        font-size: .72rem;
+        font-weight: 700;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: all .3s;
+      }
+      .modal-save-btn:hover {
+        background: rgba(0,247,255,.18);
+        box-shadow: 0 0 24px rgba(0,247,255,.4);
+      }
+      .modal-save-btn.saved {
+        border-color: #00ff88;
+        color: #00ff88;
+        background: rgba(0,255,136,.06);
+        box-shadow: 0 0 16px rgba(0,255,136,.2);
+        cursor: default;
+      }
+
+      /* ── TOAST NOTIFICATION ───────────────────────────────── */
+      #toast {
+        position: fixed;
+        bottom: 32px;
+        left: 50%;
+        transform: translateX(-50%) translateY(20px);
+        background: rgba(5, 20, 35, 0.95);
+        border: 1px solid rgba(0,247,255,.4);
+        color: var(--cyan);
+        padding: 12px 28px;
+        border-radius: 40px;
+        font-size: .72rem;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        opacity: 0;
+        pointer-events: none;
+        transition: all .35s ease;
+        z-index: 9999;
+        box-shadow: 0 0 30px rgba(0,247,255,.2);
+        white-space: nowrap;
+      }
+      #toast.show {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+      }
+      #toast.success { border-color: #00ff88; color: #00ff88; box-shadow: 0 0 30px rgba(0,255,136,.2); }
+      #toast.warn    { border-color: #ffaa00; color: #ffaa00; box-shadow: 0 0 30px rgba(255,170,0,.2); }
+
+      /* ── SAVED NAV LINK ───────────────────────────────────── */
+      .saved-nav-link {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: .7rem;
+        letter-spacing: 2px;
+        color: var(--cyan) !important;
+        text-decoration: none;
+        text-transform: uppercase;
+        padding: 8px 16px;
+        border: 1px solid rgba(0,247,255,.3);
+        border-radius: 8px;
+        transition: all .25s;
+      }
+      .saved-nav-link:hover {
+        background: rgba(0,247,255,.08);
+        box-shadow: 0 0 14px rgba(0,247,255,.25);
+      }
+      .saved-nav-link .badge {
+        background: var(--cyan);
+        color: #000;
+        border-radius: 50%;
+        width: 18px; height: 18px;
+        font-size: .6rem;
+        font-weight: 700;
+        display: flex; align-items: center; justify-content: center;
+      }
     </style>
   </head>
   <body>
@@ -493,11 +612,13 @@
       <nav>
         <a href="index.html" class="nav-logo">NEONEX</a>
         <span class="nav-tag">// Country Intel Module</span>
+        <a href="saved-countries.html" class="saved-nav-link" id="savedNavLink">
+          ◈ Saved <span class="badge" id="savedBadge">0</span>
+        </a>
       </nav>
 
       <!-- HEADER -->
       <div class="section-header">
-        <span class="label">// API Integration · Activity 3</span>
         <h1>Country <span>Intel</span></h1>
         <p>Search any nation — retrieve live data from the REST Countries API</p>
       </div>
@@ -547,7 +668,10 @@
       </div>
     </div>
 
-    <footer>© 2026 NEONEX — Activity 3 · REST Countries API</footer>
+    <footer>© 2026 NEONEX — Activity 5 · REST Countries API</footer>
+
+    <!-- TOAST -->
+    <div id="toast"></div>
 
     <script>
       /* ─────────────────────────────────────────────────────────
@@ -556,6 +680,52 @@
       ──────────────────────────────────────────────────────────*/
 
       const BASE = "https://restcountries.com/v3.1";
+
+      /* ── LOCAL STORAGE HELPERS ──────────────────────────── */
+      const LS_KEY = "neonex_saved_countries";
+
+      function getSaved() {
+        try { return JSON.parse(localStorage.getItem(LS_KEY)) || []; }
+        catch { return []; }
+      }
+
+      function isSaved(name) {
+        return getSaved().some(c => c.name === name);
+      }
+
+      function saveCountry(c) {
+        const list = getSaved();
+        if (list.some(x => x.name === c.name.common)) {
+          showToast("Already saved!", "warn"); return;
+        }
+        list.push({
+          name:       c.name.common,
+          official:   c.name.official,
+          flag:       c.flags?.svg || c.flags?.png || "",
+          capital:    capital(c.capital),
+          region:     c.region || "—",
+          population: c.population,
+          area:       c.area || null,
+          currency:   currencies(c.currencies),
+          tld:        c.tld?.join(", ") || "—"
+        });
+        localStorage.setItem(LS_KEY, JSON.stringify(list));
+        updateBadge();
+        showToast(`✔ ${c.name.common} saved!`, "success");
+      }
+
+      function updateBadge() {
+        const badge = document.getElementById("savedBadge");
+        if (badge) badge.textContent = getSaved().length;
+      }
+
+      function showToast(msg, type = "") {
+        const t = document.getElementById("toast");
+        t.textContent = msg;
+        t.className = "show " + type;
+        clearTimeout(t._timer);
+        t._timer = setTimeout(() => { t.className = ""; }, 2800);
+      }
 
       // DOM refs
       const searchInput  = document.getElementById("searchInput");
@@ -693,6 +863,8 @@
           card.className = "country-card";
           card.style.animationDelay = `${i * 40}ms`;
 
+          const already = isSaved(c.name.common);
+
           card.innerHTML = `
             <img class="card-flag"
                  src="${c.flags?.svg || c.flags?.png || ''}"
@@ -719,10 +891,28 @@
               <div class="card-tags">
                 ${c.continents?.map(t => `<span class="tag">${t}</span>`).join("") || ""}
               </div>
+            </div>
+            <div class="card-footer">
+              <button class="save-btn${already ? ' saved' : ''}" data-name="${c.name.common}">
+                ${already ? '✔ Saved' : '+ Save Country'}
+              </button>
             </div>`;
 
-          // Click → open detail modal
-          card.addEventListener("click", () => openModal(c));
+          // Save button — stop propagation so card click (modal) doesn't fire
+          card.querySelector(".save-btn").addEventListener("click", (e) => {
+            e.stopPropagation();
+            if (!isSaved(c.name.common)) {
+              saveCountry(c);
+              const btn = e.currentTarget;
+              btn.textContent = "✔ Saved";
+              btn.classList.add("saved");
+            }
+          });
+
+          // Click card body → open detail modal
+          card.querySelector(".card-body").addEventListener("click", () => openModal(c));
+          card.querySelector(".card-flag").addEventListener("click", () => openModal(c));
+          card.querySelector(".card-name").addEventListener("click", () => openModal(c));
           resultsGrid.appendChild(card);
         });
       }
@@ -787,10 +977,27 @@
             <div class="border-list">
               ${borders.map(b => `<span class="border-tag">${b}</span>`).join("")}
             </div>` : ""}
+
+          <button class="modal-save-btn${isSaved(c.name.common) ? ' saved' : ''}" id="modalSaveBtn">
+            ${isSaved(c.name.common) ? '✔ Already Saved' : '+ Save Country'}
+          </button>
         `;
 
         modalBg.classList.add("open");
         document.body.style.overflow = "hidden";
+
+        // Wire up modal save button
+        const modalSaveBtn = document.getElementById("modalSaveBtn");
+        if (modalSaveBtn && !isSaved(c.name.common)) {
+          modalSaveBtn.addEventListener("click", () => {
+            saveCountry(c);
+            modalSaveBtn.textContent = "✔ Already Saved";
+            modalSaveBtn.classList.add("saved");
+            // Also update card button if visible
+            const cardBtn = document.querySelector(`.save-btn[data-name="${c.name.common}"]`);
+            if (cardBtn) { cardBtn.textContent = "✔ Saved"; cardBtn.classList.add("saved"); }
+          });
+        }
       }
 
       function closeModal() {
@@ -907,6 +1114,7 @@
          before — /region calls are much smaller and reliable.
       ────────────────────────────────────────────────────────── */
       (function init() {
+        updateBadge();
         currentRegion = "Asia";
         document.querySelector('[data-region="Asia"]').classList.add("active");
         document.querySelector('[data-region=""]').classList.remove("active");
