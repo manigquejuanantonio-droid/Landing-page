@@ -1,0 +1,438 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NEONEX | Saved Countries</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+      :root {
+        --cyan:   #00f7ff;
+        --cyan2:  rgba(0, 247, 255, 0.55);
+        --cyan3:  rgba(0, 247, 255, 0.12);
+        --red:    #ff2d6b;
+        --green:  #00ff88;
+        --bg:     #030810;
+        --bg2:    rgba(5, 16, 32, 0.92);
+        --text:   #d8f0ff;
+        --mono:   "Share Tech Mono", monospace;
+        --display:"Orbitron", sans-serif;
+      }
+
+      html, body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: var(--mono);
+        min-height: 100vh;
+        overflow-x: hidden;
+      }
+
+      /* Animated grid */
+      body::before {
+        content: "";
+        position: fixed; inset: 0;
+        background-image:
+          linear-gradient(rgba(0,247,255,.04) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(0,247,255,.04) 1px, transparent 1px);
+        background-size: 48px 48px;
+        animation: gridScroll 18s linear infinite;
+        pointer-events: none; z-index: 0;
+      }
+      @keyframes gridScroll { to { background-position: 0 48px; } }
+
+      /* Scanlines */
+      body::after {
+        content: "";
+        position: fixed; inset: 0;
+        background: repeating-linear-gradient(
+          to bottom,
+          rgba(255,255,255,.018), rgba(255,255,255,.018) 1px,
+          transparent 2px, transparent 5px
+        );
+        pointer-events: none; z-index: 0;
+      }
+
+      .page-wrap {
+        position: relative; z-index: 1;
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 0 24px 80px;
+      }
+
+      /* NAV */
+      nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 22px 0;
+        border-bottom: 1px solid rgba(0,247,255,.15);
+        margin-bottom: 60px;
+      }
+      .nav-logo {
+        font-family: var(--display);
+        font-size: 1.1rem; font-weight: 900;
+        letter-spacing: 5px;
+        color: var(--cyan);
+        text-shadow: 0 0 18px var(--cyan);
+        text-decoration: none;
+      }
+      .nav-back {
+        font-size: .7rem; letter-spacing: 2px;
+        color: var(--cyan); text-decoration: none;
+        padding: 8px 16px;
+        border: 1px solid rgba(0,247,255,.3);
+        border-radius: 8px;
+        transition: all .25s;
+        text-transform: uppercase;
+      }
+      .nav-back:hover {
+        background: rgba(0,247,255,.08);
+        box-shadow: 0 0 14px rgba(0,247,255,.25);
+      }
+
+      /* HEADER */
+      .section-header {
+        text-align: center;
+        margin-bottom: 48px;
+      }
+      .section-header .label {
+        display: inline-block;
+        font-size: .65rem; letter-spacing: 4px;
+        color: var(--cyan); opacity: .7;
+        margin-bottom: 12px; text-transform: uppercase;
+      }
+      .section-header h1 {
+        font-family: var(--display);
+        font-size: clamp(1.8rem, 4vw, 3rem);
+        font-weight: 900; letter-spacing: 6px;
+        text-transform: uppercase;
+        text-shadow: 0 0 22px rgba(0,247,255,.5);
+      }
+      .section-header h1 span { color: var(--cyan); }
+      .section-header p {
+        margin-top: 14px; font-size: .85rem;
+        opacity: .5; letter-spacing: 1px;
+      }
+
+      /* STATS BAR */
+      .stats-bar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-bottom: 32px;
+        padding: 16px 20px;
+        background: rgba(0,247,255,.04);
+        border: 1px solid rgba(0,247,255,.12);
+        border-radius: 10px;
+      }
+      .stats-bar .count {
+        font-size: .72rem; letter-spacing: 2px;
+        color: var(--cyan); opacity: .7;
+        text-transform: uppercase;
+      }
+      .stats-bar .count strong {
+        font-family: var(--display);
+        font-size: 1.1rem; color: var(--cyan);
+        opacity: 1; margin-right: 6px;
+      }
+      .clear-all-btn {
+        padding: 8px 18px;
+        background: transparent;
+        border: 1px solid rgba(255,45,107,.4);
+        color: var(--red);
+        font-family: var(--mono);
+        font-size: .65rem; letter-spacing: 2px;
+        text-transform: uppercase;
+        border-radius: 6px; cursor: pointer;
+        transition: all .25s;
+      }
+      .clear-all-btn:hover {
+        background: rgba(255,45,107,.1);
+        box-shadow: 0 0 14px rgba(255,45,107,.3);
+      }
+
+      /* GRID */
+      #savedGrid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 20px;
+      }
+
+      /* SAVED CARD */
+      .saved-card {
+        background: var(--bg2);
+        border: 1px solid rgba(0,247,255,.14);
+        border-radius: 14px;
+        overflow: hidden;
+        animation: fadeUp .4s ease both;
+        transition: border-color .25s, box-shadow .25s;
+      }
+      .saved-card:hover {
+        border-color: rgba(0,247,255,.45);
+        box-shadow: 0 8px 36px rgba(0,247,255,.15);
+      }
+      @keyframes fadeUp {
+        from { opacity: 0; transform: translateY(18px); }
+        to   { opacity: 1; transform: translateY(0); }
+      }
+
+      .saved-flag {
+        width: 100%; height: 155px;
+        object-fit: cover; display: block;
+        border-bottom: 1px solid rgba(0,247,255,.1);
+      }
+      .saved-body { padding: 18px 20px 6px; }
+      .saved-name {
+        font-family: var(--display);
+        font-size: .9rem; font-weight: 700;
+        letter-spacing: 2px; margin-bottom: 12px;
+        color: white;
+        text-shadow: 0 0 10px rgba(0,247,255,.3);
+      }
+      .saved-row {
+        display: flex;
+        justify-content: space-between;
+        font-size: .7rem; letter-spacing: 1px;
+        margin-bottom: 7px; opacity: .75;
+      }
+      .saved-row .key { color: var(--cyan); opacity: .7; }
+      .saved-row .val { text-align: right; max-width: 60%; word-break: break-word; }
+
+      .saved-footer {
+        display: flex;
+        justify-content: flex-end;
+        padding: 12px 20px 16px;
+        border-top: 1px solid rgba(0,247,255,.08);
+      }
+      .remove-btn {
+        padding: 6px 16px;
+        background: transparent;
+        border: 1px solid rgba(255,45,107,.35);
+        color: var(--red);
+        font-family: var(--mono);
+        font-size: .62rem; letter-spacing: 2px;
+        text-transform: uppercase;
+        border-radius: 6px; cursor: pointer;
+        transition: all .25s;
+      }
+      .remove-btn:hover {
+        background: rgba(255,45,107,.1);
+        box-shadow: 0 0 12px rgba(255,45,107,.3);
+      }
+
+      /* EMPTY STATE */
+      .empty-state {
+        grid-column: 1 / -1;
+        text-align: center;
+        padding: 100px 20px;
+        opacity: .3;
+      }
+      .empty-state .icon { font-size: 3.5rem; margin-bottom: 20px; }
+      .empty-state h2 {
+        font-family: var(--display);
+        font-size: .9rem; letter-spacing: 4px;
+        text-transform: uppercase; margin-bottom: 10px;
+      }
+      .empty-state p {
+        font-size: .72rem; letter-spacing: 2px; opacity: .7;
+      }
+      .empty-state a {
+        display: inline-block;
+        margin-top: 28px;
+        padding: 10px 24px;
+        border: 1px solid rgba(0,247,255,.4);
+        color: var(--cyan); text-decoration: none;
+        border-radius: 8px; font-size: .68rem;
+        letter-spacing: 2px; text-transform: uppercase;
+        opacity: 1;
+        transition: all .25s;
+      }
+      .empty-state a:hover { background: rgba(0,247,255,.1); }
+
+      /* TOAST */
+      #toast {
+        position: fixed; bottom: 32px;
+        left: 50%; transform: translateX(-50%) translateY(20px);
+        background: rgba(5, 20, 35, 0.95);
+        border: 1px solid rgba(0,247,255,.4);
+        color: var(--cyan);
+        padding: 12px 28px; border-radius: 40px;
+        font-size: .72rem; letter-spacing: 2px;
+        text-transform: uppercase;
+        opacity: 0; pointer-events: none;
+        transition: all .35s ease; z-index: 9999;
+        box-shadow: 0 0 30px rgba(0,247,255,.2);
+        white-space: nowrap;
+      }
+      #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+      #toast.warn { border-color: #ff2d6b; color: #ff2d6b; }
+
+      /* SCROLLBAR */
+      ::-webkit-scrollbar { width: 6px; }
+      ::-webkit-scrollbar-track { background: transparent; }
+      ::-webkit-scrollbar-thumb { background: rgba(0,247,255,.25); border-radius: 3px; }
+
+      footer {
+        position: relative; z-index: 1;
+        text-align: center; padding: 32px;
+        font-size: .65rem; letter-spacing: 3px;
+        opacity: .25; text-transform: uppercase;
+        border-top: 1px solid rgba(0,247,255,.08);
+      }
+    </style>
+  </head>
+  <body>
+
+    <div class="page-wrap">
+
+      <!-- NAV -->
+      <nav>
+        <a href="index.html" class="nav-logo">NEONEX</a>
+        <a href="countries.html" class="nav-back">← Country Intel</a>
+      </nav>
+
+      <!-- HEADER -->
+      <div class="section-header">
+        <h1>Saved <span>Countries</span></h1>
+        <p>Your bookmarked nations — persisted across sessions</p>
+      </div>
+
+      <!-- STATS BAR -->
+      <div class="stats-bar">
+        <span class="count"><strong id="countNum">0</strong> countries saved</span>
+        <button class="clear-all-btn" id="clearAllBtn">✕ Clear All</button>
+      </div>
+
+      <!-- SAVED GRID -->
+      <div id="savedGrid"></div>
+
+    </div>
+
+    <footer>© 2026 NEONEX — Saved Countries · localStorage</footer>
+
+    <div id="toast"></div>
+
+    <script>
+      const LS_KEY = "neonex_saved_countries";
+
+      function getSaved() {
+        try { return JSON.parse(localStorage.getItem(LS_KEY)) || []; }
+        catch { return []; }
+      }
+
+      function setSaved(list) {
+        localStorage.setItem(LS_KEY, JSON.stringify(list));
+      }
+
+      function fmt(n) {
+        return n ? Number(n).toLocaleString() : "—";
+      }
+
+      function showToast(msg, type = "") {
+        const t = document.getElementById("toast");
+        t.textContent = msg;
+        t.className = "show " + type;
+        clearTimeout(t._timer);
+        t._timer = setTimeout(() => { t.className = ""; }, 2600);
+      }
+
+      function removeCountry(name) {
+        const list = getSaved().filter(c => c.name !== name);
+        setSaved(list);
+        render();
+        showToast(`${name} removed`, "warn");
+      }
+
+      function clearAll() {
+        if (!getSaved().length) return;
+        if (confirm("Remove all saved countries?")) {
+          localStorage.removeItem(LS_KEY);
+          render();
+          showToast("All cleared", "warn");
+        }
+      }
+
+      function render() {
+        const list = getSaved();
+        const grid = document.getElementById("savedGrid");
+        const countNum = document.getElementById("countNum");
+        countNum.textContent = list.length;
+
+        grid.innerHTML = "";
+
+        if (!list.length) {
+          grid.innerHTML = `
+            <div class="empty-state">
+              <div class="icon">◈</div>
+              <h2>No saved countries yet</h2>
+              <p>Search for countries and hit + Save Country</p>
+              <a href="countries.html">Go to Country Intel →</a>
+            </div>`;
+          return;
+        }
+
+        list.forEach((c, i) => {
+          const card = document.createElement("div");
+          card.className = "saved-card";
+          card.style.animationDelay = `${i * 40}ms`;
+
+          card.innerHTML = `
+            <img class="saved-flag" src="${c.flag}" alt="Flag of ${c.name}" loading="lazy" />
+            <div class="saved-body">
+              <div class="saved-name">${c.name}</div>
+              <div class="saved-row">
+                <span class="key">Official Name</span>
+                <span class="val">${c.official}</span>
+              </div>
+              <div class="saved-row">
+                <span class="key">Capital</span>
+                <span class="val">${c.capital}</span>
+              </div>
+              <div class="saved-row">
+                <span class="key">Region</span>
+                <span class="val">${c.region}</span>
+              </div>
+              <div class="saved-row">
+                <span class="key">Population</span>
+                <span class="val">${fmt(c.population)}</span>
+              </div>
+              <div class="saved-row">
+                <span class="key">Area</span>
+                <span class="val">${c.area ? fmt(c.area) + " km²" : "—"}</span>
+              </div>
+              <div class="saved-row">
+                <span class="key">Currency</span>
+                <span class="val">${c.currency}</span>
+              </div>
+              <div class="saved-row">
+                <span class="key">TLD</span>
+                <span class="val">${c.tld}</span>
+              </div>
+            </div>
+            <div class="saved-footer">
+              <button class="remove-btn" data-name="${c.name}">✕ Remove</button>
+            </div>`;
+
+          card.querySelector(".remove-btn").addEventListener("click", () => {
+            removeCountry(c.name);
+          });
+
+          grid.appendChild(card);
+        });
+      }
+
+      document.getElementById("clearAllBtn").addEventListener("click", clearAll);
+
+      // Initial render
+      render();
+    </script>
+
+  </body>
+</html>
