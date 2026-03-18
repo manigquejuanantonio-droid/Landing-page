@@ -1029,6 +1029,8 @@
         <div class="sb-label">System</div>
         <div class="sb-item" onclick="showToast('Reports coming soon','ok')"><span class="si">📊</span> Reports</div>
         <div class="sb-item" onclick="showToast('Settings coming soon','ok')"><span class="si">⚙️</span> Settings</div>
+        <div class="sb-label">Modules</div>
+        <div class="sb-item" onclick="window.location.href='countries.html'"><span class="si">🌍</span> Country Intel</div>
       </nav>
       <div class="sb-footer">
         <div class="sb-user">
@@ -1248,7 +1250,7 @@
               <div style="padding:24px;text-align:center">
                 <div id="addPreviewAvatar" class="u-avatar" style="width:56px;height:56px;font-size:20px;margin:0 auto 14px;background:linear-gradient(135deg,#7c3aed,#00f5ff)">?</div>
                 <div id="addPreviewName" style="font-family:'Orbitron',sans-serif;font-size:15px;font-weight:700;margin-bottom:4px">Full Name</div>
-                <div id="addPreviewEmail" style="font-size:12px;color:var(--muted);font-family:'Share Tech Mono',monospace;margin-bottom:10px">email@neonex.io</div>
+                <div id="addPreviewEmail" style="font-size:12px;color:var(--muted);font-family:'Share Tech Mono',monospace;margin-bottom:10px"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="cfaaa2aea6a38fa1aaa0a1aab7e1a6a0">[email&#160;protected]</a></div>
                 <div id="addPreviewRole" class="rbadge" style="background:rgba(107,114,128,0.1);color:var(--muted)">No role</div>
               </div>
             </div>
@@ -1284,6 +1286,8 @@
         <div class="sb-item" onclick="userTab('profile',this)"><span class="si">👤</span> My Profile</div>
         <div class="sb-item" onclick="userTab('feed',this)"><span class="si">📡</span> Feed</div>
         <div class="sb-item" onclick="userTab('settings',this)"><span class="si">⚙️</span> Settings</div>
+        <div class="sb-label">Modules</div>
+        <div class="sb-item" onclick="window.location.href='countries.html'"><span class="si">🌍</span> Country Intel</div>
       </nav>
       <div class="sb-footer">
         <div class="sb-user">
@@ -1474,8 +1478,8 @@
 
     <div class="demo-hint" id="demoHint">
       <strong>DEMO CREDENTIALS</strong><br/>
-      Admin → admin@neonex.io / admin123<br/>
-      User &nbsp;→ user@neonex.io / user1234
+      Admin → <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="fb9a9f969295bb959e94959e83d59294">[email&#160;protected]</a> / admin123<br/>
+      User &nbsp;→ <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="36434553447658535958534e185f59">[email&#160;protected]</a> / user1234
     </div>
 
     <div class="auth-error" id="authError">Invalid credentials.</div>
@@ -1526,7 +1530,7 @@
 <div class="toast" id="toast"></div>
 
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 /* ─── DATA ──────────────────────────────────────── */
 const ACCOUNTS = [
   { email:'admin@neonex.io', pass:'admin123', role:'Admin', name:'Admin Prime' },
@@ -1850,13 +1854,4 @@ function showToast(msg, type='ok') {
   const t = document.getElementById('toast');
   t.textContent = msg;
   t.className = `toast ${type} show`;
-  clearTimeout(t._timeout);
-  t._timeout = setTimeout(()=>t.classList.remove('show'),3000);
-}
-
-/* ─── INIT ───────────────────────────────────────── */
-document.getElementById('adminDate') && (document.getElementById('adminDate').textContent =
-  new Date().toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric',year:'numeric'}));
-</script>
-</body>
-</html>
+  clearTime
