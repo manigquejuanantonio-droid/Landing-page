@@ -53,7 +53,7 @@ document.addEventListener("visibilitychange", () => {
 /* =========================
    Auth Modal Logic
 ========================= */
-const openAuth = document.getElementById("openAuth");
+const openAuthBtn = document.getElementById("openAuth");
 const authOverlay = document.getElementById("authOverlay");
 const toggleAuth = document.getElementById("toggleAuth");
 const formTitle = document.getElementById("formTitle");
@@ -62,8 +62,8 @@ const authForm = document.getElementById("authForm");
 
 let isLogin = true;
 
-if (openAuth && authOverlay) {
-  openAuth.addEventListener("click", () => {
+if (openAuthBtn && authOverlay) {
+  openAuthBtn.addEventListener("click", () => {
     authOverlay.classList.add("active");
   });
 
